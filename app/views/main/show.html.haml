@@ -1,0 +1,8 @@
+- unless session[:user_id].nil?
+  = link_to _("New account"), new_account_path
+%br/
+- unless @accounts.nil?
+  %h1=_("My accounts")
+  - for account in @accounts
+    = link_to account.name, main_url(:host => account.permalink + '.' + CONFIG['domain'])
+    %br/

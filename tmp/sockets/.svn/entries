@@ -1,0 +1,28 @@
+8
+
+dir
+16
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/tmp/sockets
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty
+
+
+
+2009-02-12T10:12:10.522232Z
+7
+dilshod
+has-props
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+57c7a0ba-3d95-4dc3-830e-4c7b7b4b6a4f
+

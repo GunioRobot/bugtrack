@@ -1,0 +1,4 @@
+class Account::Project::MilestonesController < ApplicationController
+  resources :milestones
+  layout "main"
+end

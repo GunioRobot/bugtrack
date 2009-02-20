@@ -1,0 +1,13 @@
+- remote_form_for :comment, :url => project_ticket_comments_path(@project, @ticket), :html => { :method => :post, :class => "edit_post", :id => "edit_post_45" } do |f|
+  %p
+    %label=_('Title')
+    %br/
+    = f.text_field :title
+  %p
+    %label=_('Comment')
+    %br/
+    = f.text_area :comment, :size=>"40x15"
+  %p
+    = f.submit _("create")
+  %br/
+= link_to_remote _("cancel"), :url=> project_ticket_comments_path(@project, @ticket, :close=>1), :method=>:get

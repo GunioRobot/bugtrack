@@ -1,0 +1,43 @@
+8
+
+dir
+16
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/db
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty
+
+
+
+2009-02-19T05:38:30.511290Z
+15
+sarvar
+has-props
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+57c7a0ba-3d95-4dc3-830e-4c7b7b4b6a4f
+
+schema.rb
+file
+17
+
+
+
+2009-02-19T10:34:45.000000Z
+c5aeb625d0a5f38b8d052c17eae4eacb
+2009-02-19T13:38:11.172336Z
+17
+sarvar
+
+migrate
+dir
+

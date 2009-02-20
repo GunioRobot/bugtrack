@@ -1,0 +1,10 @@
+- unless session[:user_id].nil?
+  = link_to _("New project"), new_project_path
+%br/
+%h1=_("My projects")
+- unless @projects.nil?
+  - for project in @projects
+    = link_to project.name, project_path(project)
+    |
+    =link_to _("Add user to project"), new_project_add_user_path(project)
+    %br/

@@ -1,0 +1,21 @@
+class CreateProjects < ActiveRecord::Migration
+  def self.up
+    # project types
+    # 1 - private
+    # 2 - public
+    # 3 - opensource
+    create_table :projects do |t|
+      t.column :permalink, :string, :null => false
+      t.column :account_id, :integer, :null => false
+      t.column :name, :string, :null => false
+      t.column :type, :integer, :null => false
+      t.timestamps
+    end
+    add_index :projects, :permalink, :unique => true
+    add_index :projects, [:account_id, :created_at]
+  end
+
+  def self.down
+    drop_table :projects
+  end
+end

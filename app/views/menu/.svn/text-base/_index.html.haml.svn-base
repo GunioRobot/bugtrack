@@ -1,0 +1,12 @@
+
+  //=link_to "New ticket", new_account_project_ticket_path("_id"=>request.subdomains[0], :project_id=> params[:id])
+  %br/
+  //=link_to "Open tickets", account_project_tickets_path(:state => Ticket::STATE_OPEN)
+  %br/
+  //=link_to "Resolved tickets", account_project_tickets_path(:state => Ticket::STATE_RESOLVED)
+  %br/
+  //=link_to "Hold tickets", account_project_tickets_path(:state => Ticket::STATE_HOLD)
+  %br/
+  //=link_to "Invalid tickets", account_project_tickets_path(:state => Ticket::STATE_INVALID)
+  %br/
+  //=link_to "Work for me tickets", account_project_tickets_path(:state => Ticket::STATE_WORK_FOR_ME)

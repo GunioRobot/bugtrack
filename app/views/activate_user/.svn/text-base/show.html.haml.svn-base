@@ -1,0 +1,27 @@
+
+%h1
+  =_("Activating account #{@user.email}")
+- @user.password = @user.password_confirmation = nil
+
+= error_messages_for :user
+-form_for @user, :url => activate_user_path, :method=>"put" do |f|
+  =hidden_field_tag "email", @user.email
+  %p
+    = label_tag 'your name'
+    %br/
+    = f.text_field :name
+  %p
+    = label_tag 'job title'
+    %br/
+    = f.text_field :job_title
+  %p
+    = label_tag 'password'
+    %br/
+    = f.password_field :password
+  %p
+    = label_tag 'password_confirmation', 'Confirm Password'
+    %br/
+    = f.password_field :password_confirmation
+
+  %p
+    = submit_tag 'Sign up'

@@ -1,0 +1,37 @@
+#top{
+    height: 80px;
+    width: 98%;
+    border: 1px solid;
+  } 
+
+#tickets{
+    width:250px;
+    background: gray;
+    border: 1px solid;
+  }
+
+span.etype{
+    color:blue;
+    font: Arial 20px;
+}  
+
+#top_menu_bar{
+    height: 130px;
+    font-size: 14px;
+    border: 1px solid;
+    width: 98%;
+  }
+
+#right_side{
+    float: left;
+    border: 1px solid;
+    width: 98%;
+  }
+
+#body{
+    
+  }
+
+
+
+ 

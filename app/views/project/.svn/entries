@@ -1,0 +1,29 @@
+8
+
+dir
+13
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/app/views/account/project
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty
+
+
+
+2009-02-13T13:23:55.399470Z
+13
+sarvar
+
+
+svn:special svn:externals svn:needs-lock
+
+milestones
+dir
+
+tickets
+dir
+
+add_user
+dir
+
+
+
+add
+
