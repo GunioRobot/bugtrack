@@ -1,14 +1,22 @@
-%h2=_("Actions:")
-%ul
-- for action in @actions
+#overview
+  %h2=_("Actions:")
+  %ul
+  - @actions_page.items.each do |action|
+    %li
+      = relative_date(action.created_at)
+      //= action.actionable_type.find(@current_user.id)
+      = action.what_did
+      %span{:class=>"etype"}= action.actionable_type
+      %br/
+      %label=_("Project:")
+      = Project.find(action.project_id).name
   %li
-    = relative_date(action.created_at)
-    = action.what_did
-    %span{:class=>"etype"}= action.actionable_type
-    %br/
-    %label=_("Project:")
-    = Project.find(action.project_id).name
-
+    = paginator(@actions_pager, @actions_page, method(:project_path), :pager_name => "page")
 %br/
+#users_list
+  %h3=_("Project members: ")
+  -@users.each do |u|
+    = u.email
+    %br/
 
 =link_to _("Back to projects"), main_path

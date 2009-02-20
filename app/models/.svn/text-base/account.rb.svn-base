@@ -3,6 +3,7 @@ class Account < ActiveRecord::Base
   acts_as_permalinked
 
   has_many :projects
+  has_many :users, :through=> :user_accounts
   has_many :actions, :as => :actionable, :dependent => :destroy, :order => 'created_at ASC'
   
   before_create :make_permalink

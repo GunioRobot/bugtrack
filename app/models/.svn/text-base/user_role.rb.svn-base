@@ -3,5 +3,5 @@ class UserRole < ActiveRecord::Base
   belongs_to :user
   belongs_to :role
 
-  has_many :actions, :as => :actionable, :dependent => :destroy, :order => 'created_at ASC'
+#   has_many :actions, :as => :actionable, :dependent => :destroy, :order => 'created_at ASC'
 end

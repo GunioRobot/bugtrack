@@ -55,6 +55,12 @@ class Project::Ticket::CommentsController < ApplicationController
                                        :user_id=> @current_user.id, :ticket_id=>@ticket.id,
                                        :project_id=>@project.id, :title=>params[:comment][:title], :comment=> params[:comment][:comment],
                                        :account_id => @site.id)
+#     @comment.actions.create(:user_id=>@current_user.id, :project_id=>@project.id, :what_did=>"State changed from ")
+    @ticket.actions.create(:user_id=>@current_user.id, :project_id=>@project.id, :what_did=> "<a href=#{project_ticket_path(@project, @ticket)}>#{@ticket.title}</a> was changed by <a href=#{project_ticket_path(@project, @ticket)}>#{@current_user.name.blank? ? @current_user.email : @current_user.name}</a>")
+    @ticket.responsible_id = params[:ticket][:responsible_id]
+    @ticket.state = params[:ticket][:state]
+    @ticket.priority = params[:ticket][:priority]
+    @ticket.save
   end
   
   def after_create

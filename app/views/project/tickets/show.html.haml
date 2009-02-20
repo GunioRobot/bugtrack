@@ -8,9 +8,6 @@
   %label=_("Responsible: ")
   =User.find(@ticket.responsible_id).email
 %p
-  %label=_("State: ")
-  =ticket_state(@ticket.state)
-%p
   %label=_("Priority: ")
   =ticket_priority(@ticket.priority)
 =link_to_function _("leave a comment"), "$('comment').toggle()"

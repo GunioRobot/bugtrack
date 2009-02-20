@@ -9,4 +9,4 @@
     = select "project", "type_id", [["private", 1], ["public", 2], ["opensource", 3]]
   = p.submit _("create")
   %br/
-  =link_to _("back"), "/"
+  =link_to _("back"), main_path

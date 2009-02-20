@@ -1,5 +1,6 @@
 class UserProject < ActiveRecord::Base
-  belongs_to :projects
-  belongs_to :users
-  belongs_to :roles
+  permalinked_with :id
+  belongs_to :project
+  belongs_to :user
+  belongs_to :role
 end

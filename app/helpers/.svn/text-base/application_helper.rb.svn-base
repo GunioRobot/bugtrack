@@ -7,6 +7,25 @@ module ApplicationHelper
     form_for(name, *args, &block)
   end
 
+  def paginator(pager, page, link_method, params={})
+    return "" if pager.number_of_pages <= 1
+    pages = (1..(pager.number_of_pages > 4 ? 3 : pager.number_of_pages)).to_a
+    pages+= ((page.number-2)..(page.number+2)).to_a
+    pages+= ((pager.number_of_pages-2)..pager.number_of_pages).to_a
+    pages = pages.uniq.delete_if{|p| p < 1 || p > pager.number_of_pages}
+    prev_pg = nil
+    "<div class='pagination'>#{_("Pages")}: " +
+    (pages.collect do |pg|
+      s = (pg != 1 && prev_pg != pg - 1 ? "... " : "")
+      prev_pg = pg
+      s +
+      (pg == page.number ?
+        "<b>#{pg}</b>" : link_to(pg, link_method.call(params.update(:page => pg)))
+      )
+    end).join(" ") +
+    "</div>"
+  end
+
   def err_for(obj, attr)
     return '' unless obj.errors[attr]
     "<div class='ferr'>#{h(_(obj.errors[attr].is_a?(Array) ? obj.errors[attr].join(', ') : obj.errors[attr]))}</div>"

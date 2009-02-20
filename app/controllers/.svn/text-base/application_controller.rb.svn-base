@@ -20,6 +20,8 @@ class ApplicationController < ActionController::Base
 
   protected
   def init
+    @project = Project.find_by_permalink(params[:project_id]) unless params[:project_id].nil?
+    @ticket = Ticket.find_by_permalink(params[:ticket_id]) unless params[:ticket_id].nil?
     @current_user = User.find(session[:user_id]) unless session[:user_id].nil?
     @site = ApplicationController.get_site(request)
     logger.info "Site: " + @site.inspect
@@ -28,25 +30,29 @@ class ApplicationController < ActionController::Base
     return (redirect_to "/subdomain_error.html") if !@site && !request.subdomains.join(".").blank? && request.subdomains.join(".") != 'www'
   end
   
-
-  def hasrole(role)
+  def accountrole(role)
     @current_user = User.find(session[:user_id])
-    @user_roles = @current_user ? @current_user.roles.collect{|r| r.name} : ""
+    unless @site == :false
+      @roles = Role.find(:all, :joins=>"Join user_accounts ua On roles.id = ua.role_id",
+      :conditions=>["ua.user_id =? and ua.account_id = ? ", @current_user.id, @site.id])
+    end
+    @user_roles = @current_user ? @roles.collect{|r| r.name} : ""
     return true if @user_roles.include?(role)
-#       && (
-#       (role != 'admin.top' && role != 'env.add_edit') || (
-#         @current_user.user_id = 1 && (
-#           !request.env['HTTP_X_FORWARDED_FOR'] || (
-#             request.env['HTTP_X_FORWARDED_FOR'].starts_with?("192.168.33.") ||
-#             request.env['HTTP_X_FORWARDED_FOR'].starts_with?("192.168.1.") ||
-#             request.env['HTTP_X_FORWARDED_FOR'] == '127.0.0.1'
-#           )
-#         )
-#       )
-#     )
     false
   end
-  access_test_method :logged_in_access, :account_admin_access, :domain_existens_access
+
+  def projectrole(role)
+    @current_user = User.find(session[:user_id])
+    unless @project.nil?
+      @roles = Role.find(:all, :joins=>"Join user_projects up On roles.id = up.role_id",
+      :conditions=>["up.user_id =? and up.project_id = ? ", @current_user.id, @project.id])
+    end
+    @user_roles = @current_user ? @roles.collect{|r| r.name} : ""
+    return true if @user_roles.include?(role)
+    false
+  end
+
+  access_test_method :logged_in_access, :account_member_access, :account_admin_access, :domain_existens_access, :project_member_access, :project_admin_access
 
   def domain_existens_access
     raise AccessDenied unless request.subdomains.join(".") != ''
@@ -57,19 +63,19 @@ class ApplicationController < ActionController::Base
   end
 
   def account_admin_access
-    raise AccessDenied unless hasrole('account.admin')
+    raise AccessDenied unless accountrole('account.admin')
   end
 
   def account_member_access
-    raise AccessDenied unless hasrole('account.member')
+    raise AccessDenied unless accountrole('account.member') || accountrole('account.admin')
   end
 
   def project_member_access
-    raise AccessDenied unless hasrole('project.admin')
+    raise AccessDenied unless projectrole('project.member') || projectrole('project.admin')
   end
 
   def project_admin_access
-    raise AccessDenied unless hasrole('project.member')
+    raise AccessDenied unless projectrole('project.admin')
   end
 
   def self.get_site(request)
