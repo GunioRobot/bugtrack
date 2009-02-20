@@ -1,0 +1,31 @@
+8
+
+dir
+20
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/vendor/plugins/acts_as_taggable_on_steroids/generators/acts_as_taggable_migration
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty
+
+
+
+2009-02-20T12:51:03.064426Z
+20
+sarvar
+
+
+svn:special svn:externals svn:needs-lock
+
+acts_as_taggable_migration_generator.rb
+file
+
+
+
+
+2009-02-20T12:25:54.000000Z
+a7caa5b4867b5a2c10dd0f4461c0f7be
+2009-02-20T12:51:03.064426Z
+20
+sarvar
+
+templates
+dir
+
