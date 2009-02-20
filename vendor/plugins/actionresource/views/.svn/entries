@@ -1,0 +1,22 @@
+8
+
+dir
+16
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/vendor/plugins/actionresource/views
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty
+
+
+
+2009-02-19T05:38:30.511290Z
+15
+sarvar
+
+
+svn:special svn:externals svn:needs-lock
+
+html
+dir
+
+xls
+dir
+

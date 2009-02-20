@@ -1,0 +1,28 @@
+8
+
+dir
+16
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/vendor/plugins/tzinfo_timezone/lib
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty
+
+
+
+2009-02-13T13:23:55.399470Z
+13
+sarvar
+
+
+svn:special svn:externals svn:needs-lock
+
+tzinfo_timezone.rb
+file
+
+
+
+
+2009-02-13T05:21:46.000000Z
+43256420b3f0361b45a13ce439cb22b0
+2009-02-13T13:23:55.399470Z
+13
+sarvar
+

@@ -1,0 +1,40 @@
+8
+
+dir
+16
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/vendor/plugins/acts_as_commentable/lib
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty
+
+
+
+2009-02-12T14:06:05.911683Z
+11
+sarvar
+
+
+svn:special svn:externals svn:needs-lock
+
+comment.rb
+file
+
+
+
+
+2009-02-12T12:36:13.000000Z
+46fe36ce66ee4a24ee0d48c7ac72d9f1
+2009-02-12T14:06:05.911683Z
+11
+sarvar
+
+acts_as_commentable.rb
+file
+
+
+
+
+2009-02-12T11:53:28.000000Z
+3393c92cf2b4f5c648123d0f6b1b57d0
+2009-02-12T14:06:05.911683Z
+11
+sarvar
+

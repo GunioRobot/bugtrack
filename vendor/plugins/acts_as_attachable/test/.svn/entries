@@ -1,0 +1,28 @@
+8
+
+dir
+16
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/vendor/plugins/acts_as_attachable/test
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty
+
+
+
+2009-02-12T14:06:05.911683Z
+11
+sarvar
+
+
+svn:special svn:externals svn:needs-lock
+
+acts_as_attachable_test.rb
+file
+
+
+
+
+2009-02-12T11:58:02.000000Z
+769660429a18a3f4d0ca29fec2212423
+2009-02-12T14:06:05.911683Z
+11
+sarvar
+
