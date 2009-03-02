@@ -1,7 +1,16 @@
 class UsersController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
   resources :users
+  logged_in_access :except=>[:new, :create]
   layout "main", :only=>["new"]
+
+  def before_show
+    xhr_render_show
+  end
+
+  def before_edit
+    xhr_render_edit
+  end
 
   def before_new
     @account = Account.new
@@ -12,6 +21,12 @@ class UsersController < ApplicationController
 
     @user = User.new(params[:user])
     @success = @user && @user.save
+  end
+
+  def before_update
+    if params[:old_password]
+      unless User.find
+    end
   end
 
   def after_create
@@ -30,4 +45,22 @@ class UsersController < ApplicationController
       render :action => 'new'
     end
   end
+
+private
+  def xhr_render_edit
+    if request.xhr?
+      render :update do |page|
+        page.replace_html :body, :partial=> "edit"
+      end
+    end
+  end
+
+  def xhr_render_show
+    if request.xhr?
+      render :update do |page|
+        page.replace_html :body, :partial=> "show"
+      end
+    end
+  end
+
 end

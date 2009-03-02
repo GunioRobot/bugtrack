@@ -1,7 +1,16 @@
 class UsersController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
   resources :users
+  logged_in_access
   layout "main", :only=>["new"]
+
+  def before_show
+    if request.xhr?
+      render :update do |page|
+        page.replace_html :body, :partial=> "show"
+      end
+    end
+  end
 
   def before_new
     @account = Account.new

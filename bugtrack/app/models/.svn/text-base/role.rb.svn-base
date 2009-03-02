@@ -1,0 +1,7 @@
+class Role < ActiveRecord::Base
+  permalinked_with :id
+  has_many :user_roles
+  has_many :user_projects
+
+  has_many :actions, :as => :actionable, :dependent => :destroy, :order => 'created_at ASC'
+end

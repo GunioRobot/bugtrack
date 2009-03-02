@@ -1,26 +1,60 @@
-- remote_form_for :comment, :url => project_ticket_comments_path(@project, @ticket), :html => { :method => :post, :class => "edit_post", :id => "edit_post_45" } do |f|
-  %p
-    %label=_('Title')
-    %br/
-    = f.text_field :title
-  %p
-    %label=_('Comment')
-    %br/
-    = f.text_area :comment, :size=>"40x15"
+%h3=_("Update ticket")
+- remote_form_for @comment, :url => project_ticket_comments_path(@project, @ticket), :before => "Element.show('spinner')", :complete=> "Element.hide('spinner')", :html => { :method => :post, :id => "new_comment" } do |f|
+  #comment_side
+    %p
+      %label=_('Title')
+      %br/
+      = f.text_field :title
+      = err_for(@comment, :title)
+    %p
+      %label=_('Comment')
+      %br/
+      = f.text_area :comment, :size=>"40x15"
+      = err_for(@comment, :comment)
+    %p
+      = f.submit _("create")
   #ticket_side
     %p
       %label=_("State")
       %br/
-      = select :ticket, :state, [[_("New"), Ticket::STATE_NEW],[_("Open"), Ticket::STATE_OPEN],[_("Resolved"), Ticket::STATE_RESOLVED],[_("Hold"), Ticket::STATE_HOLD],[_("Invalid"), Ticket::STATE_INVALID],[_("Work for me"), Ticket::STATE_WORK_FOR_ME]]
-      %br/
+      = select :ticket, :state, [[_("Open"), Ticket::STATE_OPEN],[_("Resolved"), Ticket::STATE_RESOLVED],[_("Hold"), Ticket::STATE_HOLD],[_("Invalid"), Ticket::STATE_INVALID],[_("Work for me"), Ticket::STATE_WORK_FOR_ME]]
+    %p
       %label=_("Who's responsible?")
       %br/
-      = select :ticket, :responsible_id, @project.users.map {|u| [u.name.blank? ? u.email : u.name, u.id]}, {:include_blank => true}
-      %br/
-      %label=_("Milestone")
-      %br/
-      = select :ticket, :milestone, @project.milestones.map {|p| [p.name, p.id]}, {:include_blank => true}
-  %p
-    = f.submit _("create")
-  %br/
-= link_to_remote _("cancel"), :url=> project_ticket_comments_path(@project, @ticket, :close=>1), :method=>:get
+      = select :ticket, :responsible_id, @project.users.map {|u| [u.name.blank? ? u.email : u.name, u.id]}, {:include_blank => true, :selected=> @ticket.responsible_id}
+    - unless @project.milestones.empty?
+      %p
+        %label=_("Milestone")
+        %br/
+        = select :ticket, :milestone_id, @project.milestones.map {|p| [p.name, p.id]}, {:include_blank => true}
+    %p
+      %div{:style=>" float:left;width: 60px; height: 113px; margin-bottom:10px;"}
+        %em{:style=> "float:left; margin-top:100px; margin-right:70px"}=_("urgency")
+        %div{:class=> "indicator_revert"}
+      =priority_block(@ticket.urgency, @ticket.severity)
+      %div{:style=>"width: 113px; height: 24px; margin-left:60px;margin-bottom:10px;"}
+        %div{:class=> "indicator", :style=>"width: 113px; height: 10px"}
+        %em{:style=> "margin-top:20px;"}=_("severity")
+      =hidden_field_tag "ticket[urgency]", @ticket.urgency
+      =hidden_field_tag "ticket[severity]", @ticket.severity
+
+  #tags
+    %table
+      %tr
+        %td
+          %label=_("All users: ")
+        %td
+          = check_box_tag "all", 0
+      #all_users
+        - @project.users.each do |user|
+          %tr
+            %td
+              %label= user.name.blank? ? user.email : user.name
+            %td
+              = check_box_tag "user_#{user.id}", user.id
+
+    %label=_("Add Tags")
+    //= auto_complete_field :tag_list, :update=> "tags", :url=> project_tickets_path(@project, :tags=> 1)
+    = text_field_tag "tag_list", ""
+    
+    

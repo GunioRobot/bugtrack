@@ -1,30 +1,18 @@
 8
 
 dir
-127
-svn+ssh://sarvar@192.168.33.170/var/svn/havana/trunk/admin/vendor/plugins/paginator/lib
-svn+ssh://sarvar@192.168.33.170/var/svn/havana
+23
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/vendor/plugins/paginator/lib
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty
 
 
 
-2008-12-30T09:19:34.243621Z
-3
-dilshod
+2009-02-25T06:42:40.979700Z
+23
+sarvar
 
 
 svn:special svn:externals svn:needs-lock
-
-
-
-
-
-
-
-
-
-
-
-90f07bc6-70f0-4526-9a5c-d743a759a8eb
 
 paginator.rb
 file
@@ -34,7 +22,7 @@ file
 
 2008-12-30T10:01:15.000000Z
 6017765f750efdc42fc876800517afe2
-2008-12-30T09:19:34.243621Z
-3
-dilshod
+2009-02-25T06:42:40.979700Z
+23
+sarvar
 

@@ -1,10 +1,39 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
+  include TagsHelper
+
   def tagger_form_for(name, *args, &block)
     options = args.is_a?(Hash) ? args.pop : {}
     options = options.merge(:builder => TagBuilder)
     args = (args << options)
     form_for(name, *args, &block)
+  end
+
+  def from_type_to_link(type, id)
+    if type.to_s == "Ticket"
+      @instance = Ticket.find(id)
+      return remote_link(@instance.title, :url=> project_ticket_path(@project, @instance), :method=> :get)
+    end
+    if type.to_s == "User"
+      @instance = User.find(id)
+      return remote_link(@instance.name.blank? ? @instance.email : @instance.name, :url=> user_path(@instance), :method=> :get)
+    end
+    if type.to_s == "Page"
+      @instance = Page.find(id)
+      #return remote_link(@instance.name.blank? ? @instance.email : @instance.name, :url=> user_path(@instance), :method=> :get)
+    end
+    if type.to_s == "Milestone"
+      @instance = Milestone.find(id)
+      return remote_link(@instance.name, :url=> project_milestone_path(@project, @instance), :method=> :get)
+    end
+  end
+
+  def remote_link(name, *args, &block)
+    options = args.is_a?(Array) ? args.pop : {}
+    options[:before]= "Element.show('spinner')"
+    options[:complete] = "Element.hide('spinner')"
+    args << options
+    link_to_remote(name, *args, &block)
   end
 
   def paginator(pager, page, link_method, params={})
@@ -20,7 +49,7 @@ module ApplicationHelper
       prev_pg = pg
       s +
       (pg == page.number ?
-        "<b>#{pg}</b>" : link_to(pg, link_method.call(params.update(:page => pg)))
+        "<b>#{pg}</b>" : remote_link(pg, :url=> link_method.call(params.update(:page => pg)), :method=> :get)
       )
     end).join(" ") +
     "</div>"
@@ -95,7 +124,7 @@ module ApplicationHelper
           "#{prettier_time(times.first, !same_half)} - #{prettier_time(times.last)} #{relative_date(times.first)}"
 
       else
-        first = times.first; last = times.last; now = time_class.now        
+        first = times.first; last = times.last; now = time_class.now
         [prettier_time(first)].tap do |arr|
           arr << ' '
           arr << first.strftime('%b %d')

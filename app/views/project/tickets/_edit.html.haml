@@ -1,0 +1,62 @@
+- remote_form_for @ticket, :url=> project_tickets_path(@project), :method=>:put, :before => "Element.show('spinner')", :complete=> "Element.hide('spinner')", :html=>{:multipart=> true} do |p|
+  %p
+    %label{ :for => "ticket_title" }= _("Title:")
+    %br/
+    = p.text_field :title
+    = err_for(@ticket, :title)
+  %p
+    %div{:style=>" float:left;width: 60px; height: 113px; margin-bottom:10px;"}
+      %em{:style=> "float:left; margin-top:100px; margin-right:70px"}=_("urgency")
+      %div{:class=> "indicator_revert"}
+    %table{:style=>"margin-left: 50px;"}
+      %tr
+        %td
+          #priority_7{:style=>"width: 30px; height:30px", :onclick=>"for (i = 1; i <= 9; i++) i == 7 ? $('priority_' + i).style.background='#efbbb2' : $('priority_' + i ).style.background='white'; $('ticket[urgency]').value = 3; $('ticket[severity]').value = 1"}
+        %td
+          #priority_8{:style=>"width: 30px; height:30px", :onclick=>"for (i = 1; i <= 9; i++) i == 8 ? $('priority_' + i).style.background='#ff8c00' : $('priority_' + i ).style.background='white'; $('ticket[urgency]').value = 3; $('ticket[severity]').value = 2"}
+        %td
+          #priority_9{:style=>"width: 30px; height:30px", :onclick=>"for (i = 1; i <= 9; i++) i == 9 ? $('priority_' + i).style.background='#ff2400' : $('priority_' + i ).style.background='white'; $('ticket[urgency]').value = 3; $('ticket[severity]').value = 3"}
+      %tr
+        %td
+          #priority_4{:style=>"width: 30px; height:30px", :onclick=>"for (i = 1; i <= 9; i++) i == 4 ? $('priority_' + i).style.background='#8aff00' : $('priority_' + i ).style.background='white'; $('ticket[urgency]').value = 2; $('ticket[severity]').value = 1"}
+        %td
+          #priority_5{:style=>"width: 30px; height:30px", :onclick=>"for (i = 1; i <= 9; i++) i == 5 ? $('priority_' + i).style.background='#fff000' : $('priority_' + i ).style.background='white'; $('ticket[urgency]').value = 2; $('ticket[severity]').value = 2"}
+        %td
+          #priority_6{:style=>"width: 30px; height:30px", :onclick=>"for (i = 1; i <= 9; i++) i == 6 ? $('priority_' + i).style.background='#ff8c00' : $('priority_' + i ).style.background='white'; $('ticket[urgency]').value = 2; $('ticket[severity]').value = 3"}
+      %tr
+        %td
+          #priority_1{:style=>"width: 30px; height:30px", :onclick=>"for (i = 1; i <= 9; i++) i == 1 ? $('priority_' + i).style.background='#11a300' : $('priority_' + i ).style.background='white'; $('ticket[urgency]').value = 1; $('ticket[severity]').value = 1"}
+        %td
+          #priority_2{:style=>"width: 30px; height:30px", :onclick=>"for (i = 1; i <= 9; i++) i == 2 ? $('priority_' + i).style.background='#8aff00' : $('priority_' + i ).style.background='white'; $('ticket[urgency]').value = 1; $('ticket[severity]').value = 2"}
+        %td
+          #priority_3{:style=>"width: 30px; height:30px", :onclick=>"for (i = 1; i <= 9; i++) i == 3 ? $('priority_' + i).style.background='#efbbb2' : $('priority_' + i ).style.background='white'; $('ticket[urgency]').value = 1; $('ticket[severity]').value = 3"}
+    %div{:style=>"width: 113px; height: 24px; margin-left:60px;margin-bottom:10px;"}
+      %div{:class=> "indicator", :style=>"width: 113px; height: 10px"}
+      %em{:style=> "margin-top:20px;"}=_("severity")
+    =hidden_field_tag "ticket[urgency]", ""
+    =hidden_field_tag "ticket[severity]", ""
+  %p
+    %label{ :for => "ticket_milestone"}= _("Milestone:")
+    %br/
+    - unless @project.milestones.empty?
+      = select :ticket, :milestone_id, @project.milestones.map {|m| [m.name, m.id]}
+      = err_for(@ticket, :milestone_id)
+    - else
+      = _("Your project doesn't have milestones")
+  %p
+    %label{ :for => "ticket_responable_user_id"}= _("Responsible user:")
+    = select :ticket, :responsible_id, @project.users.map {|u| [u.email, u.id]}
+    = err_for(@ticket, :responsible_id)
+  %p
+    %label{ :for => "ticket_description" }= _("Description:")
+    %br/
+    = p.text_area :description, :size=> "100x20"
+    = err_for(@ticket, :description)
+  %p
+    #tags
+      %label=_("Add Tags")
+      = text_field_tag "tag_list", ""
+  = p.submit _("create")
+  %br/
+
+  =remote_link _("back"), :url=> project_path(@project), :method=> "get"

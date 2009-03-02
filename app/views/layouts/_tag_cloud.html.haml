@@ -1,0 +1,4 @@
+%h3=_("Tags: ")
+- tag_cloud Ticket.tag_counts(:conditions=>["project_id=?", @project.id]), %w(css1 css2 css3 css4) do |tag, css_class|
+  = remote_link tag.name, :url=> project_tickets_path(@project, :tag=> tag.name), :method=> :get
+  %br/

@@ -1,19 +1,90 @@
+h1,h2,h3,h4{
+  font-family:Verdana, sans-serif;
+  color: #005FFF;
+  }
+
+th{
+  font-family:Verdana, sans-serif;
+  color: #005FFF;
+  border: 1px solid;
+}
+
+td{
+  border: 1px solid #005FFF;
+}
+
+em{
+  font-size: 12px;
+}
+
+input.text {
+    border: 1px solid #AAA
+  }
+
+.drag_ball{
+    background-image: url(/images/images.jpeg); 
+}
+
+.indicator{
+    background-image: url(/images/indicator.gif);
+  }
+
+.indicator_revert{
+    width: 10px;
+/*     position:absolute;  */
+    margin-left: 50px;
+    height: 113px;
+/*     margin-left:113px; */
+    background-image: url(/images/indicator_rev.gif);
+  }
+
+.hover{
+    color: black;
+  }
+
+#ticket_settings{
+  position:absolute;
+  margin-left:600px;
+}
+
 #top{
     height: 80px;
     width: 98%;
     border: 1px solid;
   } 
 
+#mile_left{
+  float: left;
+}
+
+#mile_right{
+  float: right;
+  margin-right: 50px;
+}
+
+#comment_side{
+    float:left;
+  }
+
+#ticket_side{
+    float:left;
+  }
+
+#tag_side{
+    float:left;
+  }
+
 #tickets{
+    float:left;
+    position:inline;
     width:250px;
-    background: gray;
     border: 1px solid;
   }
 
 span.etype{
     color:blue;
     font: Arial 20px;
-}  
+  }
 
 #top_menu_bar{
     height: 130px;
@@ -22,10 +93,25 @@ span.etype{
     width: 98%;
   }
 
+#top_menu_bar a{
+    float:left;
+    margin-left: 10px
+}
+
+
 #right_side{
     float: left;
     border: 1px solid;
     width: 98%;
+  }
+
+#overview{
+    float:left;
+  }
+
+#right_block{
+    float:right;
+    margin-right: 50px;
   }
 
 #body{

@@ -2,15 +2,18 @@ class Ticket < ActiveRecord::Base
   permalinked_with :permalink
 #   acts_as_commentable
 #   acts_as_attachable
-  acts_as_permalinked
+  belongs_to :project
+  belongs_to :milestone
 
-  has_many :actions, :as => :actionable
+  has_many :actions, :as => :actionable, :dependent => :destroy, :order => 'created_at ASC'
   has_many :comments, :as => :commentable, :dependent => :destroy, :order => 'created_at ASC'
   before_create :make_permalink
 
   has_many :attachments, :as => :attachable
-  belongs_to :milestone
-  belongs_to :projects
+
+  acts_as_permalinked
+  acts_as_taggable
+  
 # belongs_to :resp_user,
 #             :class_name => "User",
 #             :foreign_key => "user_id"
@@ -29,16 +32,19 @@ class Ticket < ActiveRecord::Base
   STATE_INVALID = 5
   STATE_WORK_FOR_ME = 6
 
-  HIGH_PRIORITY = 1
-  LOW_PRIORITY = 2
-  MEDIUM_PRIORITY = 3
+  HIGH_URGENCY = 1
+  LOW_URGENCY = 2
+  MEDIUM_URGENCY = 3
+
+  HIGH_SEVERITY = 1
+  LOW_SEVERITY = 2
+  MEDIUM_SEVERITY = 3
 
   validates_presence_of :description
   validates_presence_of :title
   validates_length_of :title, :within => 2..64
-  validates_presence_of :priority
   validates_presence_of :state
-  validates_uniqueness_of :title
+  validates_uniqueness_of :title, :scope=>:project_id
 
   protected
   def make_permalink

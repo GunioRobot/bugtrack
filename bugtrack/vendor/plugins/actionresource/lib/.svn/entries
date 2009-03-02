@@ -1,0 +1,37 @@
+8
+
+dir
+16
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/vendor/plugins/actionresource/lib
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty
+
+
+
+2009-02-19T05:38:30.511290Z
+15
+sarvar
+
+
+svn:special svn:externals svn:needs-lock
+
+permalink
+dir
+
+actionresource
+dir
+
+mapping
+dir
+
+activerecord_ext.rb
+file
+
+
+
+
+2009-02-18T11:39:52.000000Z
+6521eb330ad4db70d46b2fabeceedeb8
+2009-02-19T05:38:30.511290Z
+15
+sarvar
+

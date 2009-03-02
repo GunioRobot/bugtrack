@@ -1,0 +1,18 @@
+class ProjectsController < ApplicationController
+  resources :projects
+  logged_in_access
+
+  def before_create
+    @project.account_id = @site.id
+  end
+
+  def after_create
+    @action = @project.actions.create(:user_id => @current_user.id, :project_id=> @project.id, :what_did=> "was created")
+    @action.save!
+  end
+
+  def before_show
+    @project = Project.find_by_permalink(params[:id])
+    @actions = Action.find_all_by_project_id(@project.id)
+  end
+end

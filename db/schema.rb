@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090219100956) do
+ActiveRecord::Schema.define(:version => 20090226095055) do
 
   create_table "accounts", :force => true do |t|
     t.string   "permalink",  :null => false
@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(:version => 20090219100956) do
     t.string   "actionable_type", :null => false
     t.integer  "actionable_id",   :null => false
     t.integer  "user_id",         :null => false
-    t.integer  "project_id"
-    t.string   "what_did"
+    t.integer  "project_id",      :null => false
+    t.text     "what_did"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -54,16 +54,22 @@ ActiveRecord::Schema.define(:version => 20090219100956) do
   add_index "attachments", ["attachable_type", "attachable_id"], :name => "index_attachments_on_attachable_type_and_attachable_id"
 
   create_table "comments", :force => true do |t|
-    t.string   "commentable_type", :null => false
-    t.integer  "commentable_id",   :null => false
-    t.integer  "user_id",          :null => false
-    t.text     "comment",          :null => false
+    t.string   "commentable_type",                :null => false
+    t.integer  "commentable_id",                  :null => false
+    t.integer  "user_id",                         :null => false
+    t.integer  "account_id",                      :null => false
+    t.integer  "project_id",                      :null => false
+    t.integer  "ticket_id",                       :null => false
+    t.text     "comment",                         :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "title",            :limit => 256, :null => false
   end
 
   add_index "comments", ["commentable_type", "commentable_id", "created_at"], :name => "comments_commentable_idx"
   add_index "comments", ["user_id", "created_at"], :name => "index_comments_on_user_id_and_created_at"
+  add_index "comments", ["ticket_id", "created_at"], :name => "index_comments_on_ticket_id_and_created_at"
+  add_index "comments", ["project_id", "created_at"], :name => "index_comments_on_project_id_and_created_at"
 
   create_table "milestones", :force => true do |t|
     t.integer  "project_id",  :null => false
@@ -94,7 +100,7 @@ ActiveRecord::Schema.define(:version => 20090219100956) do
     t.string   "permalink",  :null => false
     t.integer  "account_id", :null => false
     t.string   "name",       :null => false
-    t.integer  "type",       :null => false
+    t.integer  "type_id",    :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -126,18 +132,33 @@ ActiveRecord::Schema.define(:version => 20090219100956) do
   add_index "subscribes", ["ticket_id", "created_at"], :name => "index_subscribes_on_ticket_id_and_created_at"
   add_index "subscribes", ["user_id", "created_at"], :name => "index_subscribes_on_user_id_and_created_at"
 
+  create_table "taggings", :force => true do |t|
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.datetime "created_at"
+  end
+
+  add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
+  add_index "taggings", ["taggable_id", "taggable_type"], :name => "index_taggings_on_taggable_id_and_taggable_type"
+
+  create_table "tags", :force => true do |t|
+    t.string "name"
+  end
+
   create_table "tickets", :force => true do |t|
-    t.string   "permalink",       :null => false
-    t.integer  "created_user_id", :null => false
+    t.string   "permalink",                      :null => false
+    t.integer  "created_user_id",                :null => false
     t.integer  "responsible_id"
-    t.integer  "project_id",      :null => false
+    t.integer  "project_id",                     :null => false
     t.integer  "milestone_id"
-    t.integer  "priority",        :null => false
-    t.string   "title",           :null => false
+    t.integer  "priority",                       :null => false
+    t.string   "title",                          :null => false
     t.text     "description"
-    t.integer  "state",           :null => false
+    t.integer  "state",                          :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "weight",          :default => 0, :null => false
   end
 
   add_index "tickets", ["created_user_id", "created_at"], :name => "index_tickets_on_created_user_id_and_created_at"

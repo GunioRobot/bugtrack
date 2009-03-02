@@ -1,0 +1,40 @@
+8
+
+dir
+16
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/doc
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty
+
+
+
+2009-02-12T10:07:43.923772Z
+3
+dilshod
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+57c7a0ba-3d95-4dc3-830e-4c7b7b4b6a4f
+
+README_FOR_APP
+file
+
+
+
+
+2009-02-12T10:09:50.000000Z
+6b2973f35d584590c045b1f6bc78a8cb
+2009-02-12T10:05:52.768921Z
+2
+sarvar
+

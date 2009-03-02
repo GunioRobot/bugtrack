@@ -7,13 +7,13 @@ class Project::Ticket::CommentsController < ApplicationController
   layout "projects"
 
   def before_index
+    @comment = Comment.new
     @comments = Comment.find(:all,
                 :conditions=>["project_id = ? and ticket_id = ? and account_id = ? ", @project.id, @ticket.id, @site.id], :order=>"created_at asc")
     if request.xhr?
       if params[:close] = 1
         render :update do |page|
           page.hide "comment"
-          page.replace_html "comment", ""
         end
       end
     end
@@ -21,9 +21,6 @@ class Project::Ticket::CommentsController < ApplicationController
 
   def before_new
     if request.xhr?
-      @title = Comment.find(params[:comment_id]).title
-      @comment = Comment.new
-      @comment.title = "Re:" + @title
       render :update do |page|
         page.replace_html "comment", :partial=>"new"
         page.show "comment"
@@ -38,6 +35,7 @@ class Project::Ticket::CommentsController < ApplicationController
       render :update do |page|
         page.replace_html "comment_#{params[:id]}", :partial=>"edit"
         page.show "comment_#{params[:id]}"
+        page.replace_html "comment", ""
       end
     end
   end
@@ -46,6 +44,7 @@ class Project::Ticket::CommentsController < ApplicationController
     if request.xhr?
       render :update do |page|
         page.replace_html "edit_#{@comment.id}", :partial=> 'comment'
+        page.replace_html "comment", :partial=>"new"
       end
     end
   end
@@ -56,20 +55,34 @@ class Project::Ticket::CommentsController < ApplicationController
                                        :project_id=>@project.id, :title=>params[:comment][:title], :comment=> params[:comment][:comment],
                                        :account_id => @site.id)
 #     @comment.actions.create(:user_id=>@current_user.id, :project_id=>@project.id, :what_did=>"State changed from ")
-    @ticket.actions.create(:user_id=>@current_user.id, :project_id=>@project.id, :what_did=> "<a href=#{project_ticket_path(@project, @ticket)}>#{@ticket.title}</a> was changed by <a href=#{project_ticket_path(@project, @ticket)}>#{@current_user.name.blank? ? @current_user.email : @current_user.name}</a>")
-    @ticket.responsible_id = params[:ticket][:responsible_id]
-    @ticket.state = params[:ticket][:state]
-    @ticket.priority = params[:ticket][:priority]
-    @ticket.save
+
+    
+    @comment.save
+    unless @comment.errors.empty?
+      render :update do |page|
+        page.replace_html "comment", :partial=>"new", :object=> @comment
+        page.replace_html "tag_cloud", :partial=>"/layouts/tag_cloud"
+      end
+      return
+    else
+      @ticket.actions.create(:user_id=>@current_user.id, :project_id=>@project.id, :what_did=> "was updated by")
+      @ticket.tag_list.add(params[:tag_list]) unless params[:tag_list].nil? || params[:tag_list].empty?
+      @ticket.update_attributes(params[:ticket])
+    end
   end
   
   def after_create
     @comments = Comment.find(:all,
                 :conditions=>["project_id = ? and ticket_id = ? and account_id = ? ", @project.id, @ticket.id, @site.id], :order=>"created_at asc")
+    unless params[:all].nil?
+      UserMailer.deliver_updated_ticket_notification(@project, @ticket, User.find(@ticket.responsible_id), request)
+    else
+      UserMailer.deliver_updated_ticket_notification(@project, @ticket, User.find(@ticket.responsible_id), request, emails)
+    end
     if request.xhr?
       render :update do |page|
+        page.replace_html "tag_cloud", :partial=>"/layouts/tag_cloud"
         page.replace_html "comments", :partial=>"index"
-        page.hide "comment"
       end
     end
   end
@@ -78,8 +91,18 @@ class Project::Ticket::CommentsController < ApplicationController
     if request.xhr?
       render :update do |page|
         page.replace_html "comment_#{@comment.id}", ""
-        page.hide "comment"
       end
     end
+  end
+
+  private
+  def emails
+    emails = ""
+    for user in @project.users
+      if params["user_#{user.id}"]
+        emails << "," + user.email
+      end
+    end
+    return emails
   end
 end

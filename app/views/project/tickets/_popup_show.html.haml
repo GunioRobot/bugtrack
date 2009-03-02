@@ -1,0 +1,22 @@
+%p
+  %label=_("Title:")
+  =@ticket.title
+%p
+  %label=_("Description: ")
+  =@ticket.description.gsub("\n", "<br/>")
+%p
+  %label=_("Responsible: ")
+  =User.find(@ticket.responsible_id).email
+%p
+  %label=_("Urgency:")
+  =ticket_urgency(@ticket.urgency)
+%p
+  %label=_("Severity:")
+  =ticket_severity(@ticket.severity)
+%p
+  %label=_("State: ")
+  =ticket_state(@ticket.state)
+#comments
+  =render(:partial=>'/project/ticket/comments/popup_index')
+%p
+

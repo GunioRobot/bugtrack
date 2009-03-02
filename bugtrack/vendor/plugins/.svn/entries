@@ -1,0 +1,69 @@
+8
+
+dir
+17
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/vendor/plugins
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty
+
+
+
+2009-02-19T13:38:11.172336Z
+17
+sarvar
+has-props
+
+svn:special svn:externals svn:needs-lock
+svn:externals
+
+
+
+
+
+
+
+
+
+
+57c7a0ba-3d95-4dc3-830e-4c7b7b4b6a4f
+
+haml
+dir
+
+restful-authentication
+dir
+
+acts_as_commentable
+dir
+
+tzinfo_timezone
+dir
+
+acts_as_attachable
+dir
+
+actionresource
+dir
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/vendor/plugins/rails
+12
+
+relative_time_helpers
+dir
+

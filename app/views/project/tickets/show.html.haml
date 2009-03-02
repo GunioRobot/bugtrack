@@ -10,11 +10,11 @@
 %p
   %label=_("Priority: ")
   =ticket_priority(@ticket.priority)
+%br/
+=link_to _("back"), project_path(@project)
 =link_to_function _("leave a comment"), "$('comment').toggle()"
 #comment{:style=>"display:none"}
   =render(:partial=>'/project/ticket/comments/new')
 #comments
   =render(:partial=>'/project/ticket/comments/index')
 
-%br/
-=link_to _("back"), project_path(@project)

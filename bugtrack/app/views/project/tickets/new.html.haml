@@ -1,0 +1,32 @@
+- form_for @ticket, :url=> project_tickets_path do |p|
+  %p
+    %label{ :for => "ticket_title" }= _("Title:")
+    %br/
+    = p.text_field :title
+    = err_for(@ticket, :title)
+  %p
+    %label{ :for => "ticket_priority"}= _("Priority:")
+    %br/
+    = select :ticket, :priority, [[_("High priority"), Ticket::HIGH_PRIORITY],[_("Medium priority"), Ticket::MEDIUM_PRIORITY],[_("Low priority"), Ticket::LOW_PRIORITY]]
+    = err_for(@ticket, :priority)
+  %p
+    %label{ :for => "ticket_milestone"}= _("Milestone:")
+    %br/
+    - @milestones = Milestone.find_all_by_project_id(params[:project_id])
+    - unless @milestones.empty?
+      = select :ticket, :milestone, @milestones.map {|p| [p.name, p.id]}
+      = err_for(@ticket, :milestone)
+    - else
+      = _("Your project doesn't have milestones")
+  %p
+    %label{ :for => "ticket_responable_user_id"}= _("Responsible user:")
+    = select :ticket, :responsible_id, @project.users.map {|u| [u.email, u.id]}
+    = err_for(@ticket, :responsible_id)
+  %p
+    %label{ :for => "ticket_description" }= _("Description:")
+    %br/
+    = p.text_area :description
+    = err_for(@ticket, :description)
+  = p.submit _("create")
+  %br/
+  =link_to _("back"), project_path(@project)

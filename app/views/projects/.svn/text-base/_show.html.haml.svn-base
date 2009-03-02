@@ -1,0 +1,17 @@
+#overview
+  %h2=_("Actions:")
+  %ul
+  - @actions_page.items.each do |action|
+    %li
+      = relative_date(action.created_at)
+      = from_type_to_link(action.actionable_type, action.actionable_id)
+      = action.what_did
+      = remote_link action.project.name, :url=> project_path(action.project), :method=> :get
+      %span{:class=>"etype"}= action.actionable_type
+  %li
+    = paginator(@actions_pager, @actions_page, method(:project_path), :pager_name => "page")
+  //=remote_link _("Back to projects"), :url=> main_path, :method=> "get"
+  =link_to _("Back to projects"), main_path
+%br/
+
+

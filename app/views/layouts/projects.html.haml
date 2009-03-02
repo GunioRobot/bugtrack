@@ -5,31 +5,48 @@
     %meta{ "http-equiv" => "Pragma", :content => "no-cache" }/
     %title Bugtracker
     = stylesheet_link_tag "main"
-    = javascript_include_tag  "prototype", "effects", "controls", "dragdrop"
+    = javascript_include_tag  "application", "prototype", "effects", "controls", "dragdrop", "scriptaculous", "builder", "slider"
 %body
+  #spinner{:style=>"display:none; position:absolute;"}
+    %img{ :src=>"/images/ajax-loader.gif"}
+    
   #top
     #login
       =render(:partial=>"/users/user_bar")
-  #top_menu_bar
-    %ui
-      %li
-        = link_to_function "Tickets", "$('tickets').toggle()"
-        #tickets{:style=>"display:none; position:static;"}
-          =link_to _("New tickets"), project_tickets_path(:state => Ticket::STATE_NEW, :project_id=> @project)
+  #top_menu_bar{:style=> "float:left"}
+    %div
+      = remote_link _("Dashboard"), :url=> project_path(@project), :method=> "get"
+    %div
+      = remote_link _("All tickets"), :url=> project_tickets_path(:project_id=> @project), :method=> :get, :html => {:href=>"#tickets"}
+    %div
+      = link_to_function "filters", "$('tickets').toggle()"
+      #tickets{:style=>"display:none; margin-top:20px; float:left;"}
+        =remote_link _("New tickets"), :url=> project_tickets_path(:state => Ticket::STATE_NEW, :project_id=> @project), :html => {:href=>"#tickets"}, :method=> :get
+        %br/
+        =remote_link _("Open tickets"), :url=> project_tickets_path(:state => Ticket::STATE_OPEN, :project_id=> @project), :method=> :get, :html => {:href=>"#tickets"}
+        %br/
+        =remote_link _("Resolved tickets"), :url=> project_tickets_path(:state => Ticket::STATE_RESOLVED, :project_id=> @project), :method=> :get, :html => {:href=>"#tickets"}
+        %br/
+        =remote_link _("Hold tickets"), :url=> project_tickets_path(:state => Ticket::STATE_HOLD, :project_id=> @project), :method=> :get, :html => {:href=>"#tickets"}
+        %br/
+        =remote_link _("Invalid tickets"), :url=> project_tickets_path(:state => Ticket::STATE_INVALID, :project_id=> @project), :method=> :get, :html => {:href=>"#tickets"}
+        %br/
+        =remote_link _("Work for me tickets"), :url=> project_tickets_path(:state => Ticket::STATE_WORK_FOR_ME, :project_id=> @project), :method=> :get, :html => {:href=>"#tickets"}
+        - for user in @project.users
           %br/
-          =link_to _("Open tickets"), project_tickets_path(:state => Ticket::STATE_OPEN, :project_id=> @project)
-          %br/
-          =link_to _("Resolved tickets"), project_tickets_path(:state => Ticket::STATE_RESOLVED, :project_id=> @project)
-          %br/
-          =link_to _("Hold tickets"), project_tickets_path(:state => Ticket::STATE_HOLD, :project_id=> @project)
-          %br/
-          =link_to _("Invalid tickets"), project_tickets_path(:state => Ticket::STATE_INVALID, :project_id=> @project)
-          %br/
-          =link_to _("Work for me tickets"), project_tickets_path(:state => Ticket::STATE_WORK_FOR_ME, :project_id=> @project)
-          - for user in @project.users
-            %br/
-            = link_to user.name.blank? ? user.email : user.name, project_tickets_path(:user => user.id, :project_id=> @project)
-      %li
-        = link_to _("Milestones"), project_milestones_path(@project)
+          = remote_link user.name.blank? ? user.email : user.name, :url=> project_tickets_path(:user => user.id, :project_id=> @project), :method=> :get, :html => {:href=>"#tickets"}
+    %div
+      = remote_link _("Milestones"), :url=> project_milestones_path(@project), :method=> :get, :html => {:href=>"#tickets"}
+    - @project.milestones.each do |stone|
+      %div
+        = remote_link stone.name, :url=> project_milestone_path(@project, stone), :method=>:get
+  #right_block
+    #users_list
+      =render(:partial => "/layouts/project_users")
+    #tag_cloud{:width=> '200px'}
+      =render(:partial => "/layouts/tag_cloud")
+
+  #flash
+    = flash[:notice]
   #body
     = yield

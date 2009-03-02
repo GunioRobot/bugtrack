@@ -1,0 +1,5 @@
+class UserProject < ActiveRecord::Base
+  belongs_to :projects
+  belongs_to :users
+  belongs_to :roles
+end

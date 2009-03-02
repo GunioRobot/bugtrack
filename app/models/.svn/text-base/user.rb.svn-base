@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :user_accounts
   has_many :roles, :through => :user_projects
   has_many :roles, :through => :user_accounts
+  has_many :projects, :through => :user_projects
   has_many :actions, :as => :actionable
 
   include Authentication

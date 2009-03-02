@@ -1,0 +1,7 @@
+- form_remote_tag :url=> project_add_user_path, :before => "Element.show('spinner')", :complete=> "Element.hide('spinner')" do
+  = text_field_tag :email, ""
+
+  = select_tag :project_roles, options_for_select([[_("Project admin"),"project.admin"], [_("Project member"),"project.member"]])
+  = submit_tag _("Add user")
+|
+= link_to _("Back to main page"), main_path

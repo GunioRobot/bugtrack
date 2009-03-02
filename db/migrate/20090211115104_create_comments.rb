@@ -7,6 +7,7 @@ class CreateComments < ActiveRecord::Migration
       t.column :account_id, :integer, :null=> false
       t.column :project_id, :integer, :null=> false
       t.column :ticket_id, :integer, :null=> false
+      t.column :title, :string, :null=> false
       t.column :comment, :text, :null=> false
       t.timestamps
     end

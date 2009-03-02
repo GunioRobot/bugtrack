@@ -1,0 +1,4 @@
+class Account::Project::TicketsController < ApplicationController
+  resources :tickets
+  layout "main"
+end

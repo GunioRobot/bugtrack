@@ -1,12 +1,12 @@
 class Project < ActiveRecord::Base
   permalinked_with :permalink
   belongs_to :account
-  has_many :milestones
   has_many :user_projects
   has_many :users, :through=> :user_projects
-  acts_as_permalinked
-
+  has_many :milestones
+  has_many :tickets
   has_many :actions, :as => :actionable, :dependent => :destroy, :order => 'created_at ASC'
+  acts_as_permalinked
 
   before_create :make_permalink
 

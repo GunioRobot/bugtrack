@@ -20,8 +20,10 @@ class ApplicationController < ActionController::Base
 
   protected
   def init
+#     @prev_page = 
     @project = Project.find_by_permalink(params[:project_id]) unless params[:project_id].nil?
     @ticket = Ticket.find_by_permalink(params[:ticket_id]) unless params[:ticket_id].nil?
+    @milestone = Milestone.find_by_permalink(params[:milestone_id]) unless params[:milestone_id].nil?
     @current_user = User.find(session[:user_id]) unless session[:user_id].nil?
     @site = ApplicationController.get_site(request)
     logger.info "Site: " + @site.inspect

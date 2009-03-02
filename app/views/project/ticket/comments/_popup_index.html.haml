@@ -1,0 +1,8 @@
+- unless @comments.empty?
+  %h3=_("Comments")
+  - for comment in @comments
+    .div{:id=>"comment_#{comment.id}"}
+      %p
+        =comment.title
+      %p
+        =comment.comment.gsub("\n","<br/>")

@@ -1,0 +1,14 @@
+%h2=_("Actions:")
+%ul
+- for action in @actions
+  %li
+    = relative_date(action.created_at)
+    = action.what_did
+    %span{:class=>"etype"}= action.actionable_type
+    %br/
+    %label=_("Project:")
+    = Project.find(action.project_id).name
+
+%br/
+
+=link_to _("Back to projects"), main_path

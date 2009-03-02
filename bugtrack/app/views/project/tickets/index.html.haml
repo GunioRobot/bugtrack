@@ -1,0 +1,17 @@
+-unless @tickets_page.nil?
+  %table
+    %th=_("link")
+    %th=_("state")
+    -@tickets_page.items.each do |ticket|
+      %tr
+        %td
+          = link_to ticket.title, project_ticket_path(@project, ticket)
+        %td
+          = ticket_state(ticket.state)
+    %tr
+      %td
+        = paginator(@tickets_pager, @tickets_page, method(:project_tickets_path), :pager_name => "page")
+-else
+  %label=_("Don't have any ticket")
+
+=link_to _("back"), project_path(@project)

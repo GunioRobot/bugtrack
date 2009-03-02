@@ -1,14 +1,25 @@
 %div{:id=>"edit_#{@comment.id}"}
-  - remote_form_for :comment, :url => project_ticket_comment_path(@project, @ticket, @comment), :html => { :method => :put, :class => "edit_post", :id => "edit_post_45" } do |f|
-    %p
-      %label=_('Title')
-      %br/
-      = f.text_field :title
-    %p
-      %label=_('Comment')
-      %br/
-      = f.text_area :comment, :size=>"40x15"
-    %p
-      = f.submit _("create")
-  |
-  = link_to_remote _("cancel"), :url=> project_ticket_comment_path(@project, @ticket, @comment), :method=>:put
+  - remote_form_for :comment, :url => project_ticket_comment_path(@project, @ticket, @comment), :before => "Element.show('spinner')", :complete=> "Element.hide('spinner')", :html => { :method => :put } do |f|
+    #comment_side
+      %p
+        %label=_('Comment')
+        %br/
+        = f.text_area :comment, :size=>"40x15"
+      %p
+        = f.submit _("create")
+        |
+        = remote_link _("cancel"), :url=> project_ticket_comment_path(@project, @ticket, @comment), :method=>:put
+    #ticket_side
+      %p
+        %label=_("State")
+        %br/
+        = select :ticket, :state, [[_("New"), Ticket::STATE_NEW],[_("Open"), Ticket::STATE_OPEN],[_("Resolved"), Ticket::STATE_RESOLVED],[_("Hold"), Ticket::STATE_HOLD],[_("Invalid"), Ticket::STATE_INVALID],[_("Work for me"), Ticket::STATE_WORK_FOR_ME]]
+      %p
+        %label=_("Who's responsible?")
+        %br/
+        = select :ticket, :responsible_id, @project.users.map {|u| [u.name.blank? ? u.email : u.name, u.id]}, {:include_blank => true}
+      - unless @project.milestones.empty?
+        %p
+          %label=_("Milestone")
+          %br/
+          = select :ticket, :milestone, @project.milestones.map {|p| [p.name, p.id]}, {:include_blank => true}

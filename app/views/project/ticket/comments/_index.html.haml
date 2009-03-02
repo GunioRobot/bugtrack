@@ -5,11 +5,9 @@
     %p
       =comment.comment.gsub("\n","<br/>")
     %p
-      //=link_to_remote _("quote"), :url=> new_project_ticket_comment_path(@project, @ticket, :comment_id=>comment.id), :method=>:get
+      //=link_to_remote _("quote"), :url=> new_project_ticket_comment_path(@project, @ticket, :comment_id=>comment.id), :method=>:get, :before => "Element.show('spinner')", :complete=> "Element.hide('spinner')"
       - if comment.user_id == @current_user.id
-        =link_to_remote _("edit"), :url=> edit_project_ticket_comment_path(@project, @ticket, comment.id), :method=>:get
+        =remote_link _("edit"), :url=> edit_project_ticket_comment_path(@project, @ticket, comment.id), :method=>:get
       - if comment.user_id == @current_user.id || comment.user_id == @ticket.created_user_id
         |
-        =link_to_remote _("delete"), :url=> project_ticket_comment_path(@project, @ticket, comment.id), :method=>:delete
-
-  %br/
+        =remote_link _("delete"), :url=> project_ticket_comment_path(@project, @ticket, comment.id), :method=>:delete

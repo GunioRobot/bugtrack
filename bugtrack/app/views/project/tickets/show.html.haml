@@ -1,0 +1,23 @@
+%p
+  %label=_("Title:")
+  =@ticket.title
+%p
+  %label=_("Description: ")
+  =@ticket.description.gsub("\n", "<br/>")
+%p
+  %label=_("Responsible: ")
+  =User.find(@ticket.responsible_id).email
+%p
+  %label=_("State: ")
+  =ticket_state(@ticket.state)
+%p
+  %label=_("Priority: ")
+  =ticket_priority(@ticket.priority)
+=link_to_function _("leave a comment"), "$('comment').toggle()"
+#comment{:style=>"display:none"}
+  =render(:partial=>'/project/ticket/comments/new')
+#comments
+  =render(:partial=>'/project/ticket/comments/index')
+
+%br/
+=link_to _("back"), project_path(@project)

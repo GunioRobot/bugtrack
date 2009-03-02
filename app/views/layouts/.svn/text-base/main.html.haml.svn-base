@@ -7,11 +7,14 @@
     = stylesheet_link_tag "main"
     = javascript_include_tag  "prototype", "effects", "controls", "dragdrop"
 %body
+  #spinner{:style=>"display:none; position:absolute;"}
+    %img{ :src=>"/images/ajax-loader.gif"}
+    
   #top
     #login
       =render(:partial=>"/users/user_bar")
+  #flash
+    = flash[:notice]
   #body
-    %p
-      = flash[:notice]
     = yield
     

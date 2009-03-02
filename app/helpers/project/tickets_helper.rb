@@ -1,4 +1,4 @@
-module Account::Project::TicketsHelper
+module Project::TicketsHelper
   def ticket_state(state)
     if state == Ticket::STATE_NEW
       return "<span>" + _("New") + "</span>"
@@ -19,14 +19,27 @@ module Account::Project::TicketsHelper
       return "<span>" + _("Work for me") + "</span>"
     end
   end
-  def ticket_priority(priority)
-    if priority == Ticket::HIGH_PRIORITY
+
+  def ticket_severity(severity)
+    if severity == Ticket::HIGH_SEVERITY
       return "<span>" + _("High") + "</span>"
     end
-    if priority == Ticket::LOW_PRIORITY
+    if severity == Ticket::LOW_SEVERITY
       return "<span>" + _("Low") + "</span>"
     end
-    if priority == Ticket::MEDIUM_PRIORITY
+    if severity == Ticket::MEDIUM_SEVERITY
+      return "<span>" + _("Medium") + "</span>"
+    end
+  end
+
+  def ticket_urgency(urgency)
+    if urgency == Ticket::HIGH_URGENCY
+      return "<span>" + _("High") + "</span>"
+    end
+    if urgency == Ticket::LOW_URGENCY
+      return "<span>" + _("Low") + "</span>"
+    end
+    if urgency == Ticket::MEDIUM_URGENCY
       return "<span>" + _("Medium") + "</span>"
     end
   end

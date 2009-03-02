@@ -13,6 +13,8 @@ class CreateUsers < ActiveRecord::Migration
       t.column :salt,                      :string, :limit => 40
       t.column :job_title,                 :string
       t.column :activation_code,           :string
+      t.column :cell_phone,                :string
+      t.column :im,                        :string
       t.column :email_preference,          :integer
       t.column :created_at,                :datetime
       t.column :updated_at,                :datetime

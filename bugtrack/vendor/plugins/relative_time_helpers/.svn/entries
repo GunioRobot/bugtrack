@@ -1,0 +1,34 @@
+8
+
+dir
+17
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/vendor/plugins/relative_time_helpers
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty
+
+
+
+2009-02-19T13:38:11.172336Z
+17
+sarvar
+
+
+svn:special svn:externals svn:needs-lock
+
+test
+dir
+
+init.rb
+file
+
+
+
+
+2009-02-19T13:21:42.000000Z
+197b901879dec66cc4b5d839372ee674
+2009-02-19T13:38:11.172336Z
+17
+sarvar
+
+lib
+dir
+

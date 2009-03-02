@@ -1,0 +1,10 @@
+%div{:id=>'comment_#{@comment.id}'}
+  %p
+    =@comment.title
+  %p
+    =@comment.comment.gsub('\n','<br/>')
+  %p
+    = link_to_remote _("quote"), :url=> new_project_ticket_comment_path(@project, @ticket, :comment_id=>@comment.id), :method=>:get
+    |
+    = link_to_remote _("edit"), :url=> edit_project_ticket_comment_path(@project, @ticket, @comment.id), :method=>:get
+

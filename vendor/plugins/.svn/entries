@@ -38,6 +38,9 @@ dir
 tzinfo_timezone
 dir
 
+paginator
+dir
+
 acts_as_attachable
 dir
 
@@ -65,5 +68,8 @@ svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/vendor/plugins/rails
 12
 
 relative_time_helpers
+dir
+
+acts_as_taggable_on_steroids
 dir
 

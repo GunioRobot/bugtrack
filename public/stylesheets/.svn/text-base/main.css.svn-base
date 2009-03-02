@@ -1,18 +1,59 @@
+h1,h2,h3,h4{
+  font-family:Verdana, sans-serif;
+  color: #005FFF;
+  }
+
+th{
+  font-family:Verdana, sans-serif;
+  color: #005FFF;
+  border: 1px solid;
+}
+
+td{
+  border: 1px solid #005FFF;
+}
+
+input.text {
+    border: 1px solid #AAA
+  }
+
 #top{
     height: 80px;
     width: 98%;
     border: 1px solid;
   } 
 
+#mile_left{
+  float: left;
+}
+
+#mile_right{
+  float: right;
+  margin-right: 50px;
+}
+
+#comment_side{
+    float:left;
+  }
+
+#ticket_side{
+    float:left;
+  }
+
+#tag_side{
+    float:left;
+  }
+
 #tickets{
-    width:150px;
+    width:250px;
+    background: gray;
     border: 1px solid;
   }
 
 span.etype{
     color:blue;
     font: Arial 20px;
-}  
+  }
 
 #top_menu_bar{
     height: 130px;
@@ -25,6 +66,15 @@ span.etype{
     float: left;
     border: 1px solid;
     width: 98%;
+  }
+
+#overview{
+    float:left;
+  }
+
+#right_block{
+    float:right;
+    margin-right: 50px;
   }
 
 #body{

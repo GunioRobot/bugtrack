@@ -1,0 +1,35 @@
+!!! 1.1
+%html{ :xmlns => "http://www.w3.org/1999/xhtml" }
+  %head
+    %meta{ "http-equiv" => "Content-Type", :content => "text/html; charset=utf-8" }/
+    %meta{ "http-equiv" => "Pragma", :content => "no-cache" }/
+    %title Bugtracker
+    = stylesheet_link_tag "main"
+    = javascript_include_tag  "prototype", "effects", "controls", "dragdrop"
+%body
+  #top
+    #login
+      =render(:partial=>"/users/user_bar")
+  #top_menu_bar
+    %ui
+      %li
+        = link_to_function "Tickets", "$('tickets').toggle()"
+        #tickets{:style=>"display:none; position:static;"}
+          =link_to _("New tickets"), project_tickets_path(:state => Ticket::STATE_NEW, :project_id=> @project)
+          %br/
+          =link_to _("Open tickets"), project_tickets_path(:state => Ticket::STATE_OPEN, :project_id=> @project)
+          %br/
+          =link_to _("Resolved tickets"), project_tickets_path(:state => Ticket::STATE_RESOLVED, :project_id=> @project)
+          %br/
+          =link_to _("Hold tickets"), project_tickets_path(:state => Ticket::STATE_HOLD, :project_id=> @project)
+          %br/
+          =link_to _("Invalid tickets"), project_tickets_path(:state => Ticket::STATE_INVALID, :project_id=> @project)
+          %br/
+          =link_to _("Work for me tickets"), project_tickets_path(:state => Ticket::STATE_WORK_FOR_ME, :project_id=> @project)
+          - for user in @project.users
+            %br/
+            = link_to user.name.blank? ? user.email : user.name, project_tickets_path(:user => user.id, :project_id=> @project)
+      %li
+        = link_to _("Milestones"), project_milestones_path(@project)
+  #body
+    = yield

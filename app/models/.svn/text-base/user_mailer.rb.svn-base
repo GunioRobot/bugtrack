@@ -19,9 +19,30 @@ helper :application
     @body[:description] = ticket.description
     @body[:permalink] = "http://#{request.subdomains[0]}.#{CONFIG['domain']}/project/#{project.permalink}/ticket/#{ticket.permalink}/edit"
     @body[:main_url] = "http://#{request.subdomains[0]}.#{CONFIG['domain']}"
+  end
+
+  def updated_ticket_notification(project, ticket, user, request, emails = 0)
+    if emails.nil?
+      @recipients  = "#{user.email}, #{project.users.map{|u| u.email}.join(',')}"
+    else
+      @recipients  = "#{user.email} #{emails}"
+    end
+    @from        = "sarvar.muminov@gmail.com"
+    @subject     = ""
+    @sent_on     = Time.now
+    @body[:user] = user
+    @subject    += 'Bugtracer.com'
+
+    @body[:project_name]  = project.name
+    @body[:title]  = ticket.title
+    @body[:description] = ticket.description
+    @body[:permalink] = "http://#{request.subdomains[0]}.#{CONFIG['domain']}/project/#{project.permalink}/ticket/#{ticket.permalink}/edit"
+    @body[:main_url] = "http://#{request.subdomains[0]}.#{CONFIG['domain']}"
   end  
+
 protected
   def setup_email(new_user)
+    
     @recipients  = "#{new_user.email}"
     @from        = "sarvar.muminov@gmail.com"
 #    @from        = "soqqa@soqqa.uz"

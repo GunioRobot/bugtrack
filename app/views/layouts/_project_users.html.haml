@@ -1,0 +1,4 @@
+%h3=_("Project members: ")
+-@project.users.each do |u|
+  =remote_link u.email, :url=> user_path(u), :method=> :get, :html => {:href=>"#tickets"}
+  %br/

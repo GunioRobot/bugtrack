@@ -1,0 +1,35 @@
+= error_messages_for :user
+- form_for @user, :url => user_path(@user), :method=>:put  do |f|
+  %p
+    = label_tag _('name')
+    %br/
+    = f.text_field :name
+  %p
+    = label_tag _('im')
+    %br/
+    = f.text_field :im
+  %p
+    = label_tag _('cell_phone')
+    %br/
+    = f.text_field :cell_phone
+  %p
+    = label_tag _('email')
+    %br/
+    = f.text_field :email
+  =link_to_function _("change password"), :onclick=>"$('passwd').toggle(); if($('passwd').style.display=='none') $('old_password').value=''; "
+  #passwd{:style=>"display:none"}
+    %p
+      = label_tag _('old password')
+      %br/
+      = password_field_tag :old_password, ""
+    %p
+      = label_tag _('password')
+      %br/
+      = f.password_field :password
+    %p
+      = label_tag 'password_confirmation', 'Confirm Password'
+      %br/
+      = f.password_field :password_confirmation
+
+  %p
+    = submit_tag _("save")

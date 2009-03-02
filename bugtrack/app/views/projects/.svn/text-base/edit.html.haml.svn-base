@@ -1,0 +1,12 @@
+- form_for @project, :url=> account_projects_path do |p|
+  %p
+    %label{ :for => "project_name" }= _("Name:")
+    %br/
+    = p.text_field :name
+  %p
+    %label{ :for => "project_type" }= _("Project type:")
+    %br/
+    = select "project", "type_id", [["private", 1], ["public", 2], ["opensource", 3]]
+  = p.submit _("create")
+  %br/
+  =link_to _("back"), "/"

@@ -1,0 +1,30 @@
+
+= remote_link _("New ticket"), :url=> new_project_ticket_path(@project, :milestone_id=> @milestone.id), :method=> :get, :html => {:href=>"#tickets"}
+- if projectrole('project.admin')
+  = remote_link _("Edit milestone"), :url=> edit_project_milestone_path(@project, @milestone), :method=> :get
+  = remote_link _("New milestone"), :url=> new_project_milestone_path(@project), :method=> :get
+  = link_to_function _("Delete milestone"), "$('delete_stone').toggle()"
+  #delete_stone{:style=>"display:none;"}
+    - form_remote_tag :url=> project_milestone_path(@project,@milestone), :method=>:delete, :before => "Element.show('spinner')", :complete=> "Element.hide('spinner')" do
+      = submit_tag _("delete")
+    = link_to_function _("cancel"), "$('delete_stone').toggle()"
+
+%h3=@milestone.name
+%table
+  %tr
+    %td
+      = @open_tickets
+      %span=_("tickets remains")
+    %td
+      =@milestone.tickets.size
+      %span=_("total tickets")
+
+  %tr
+    %td{:colspan=>"2"}
+      =@milestone.description
+- @milestone.tickets.each do |ticket|
+  %p
+    \#
+    =ticket.id
+    =remote_link ticket.title, :url=> project_ticket_path(@project, ticket), :method=> :get
+    =ticket.description

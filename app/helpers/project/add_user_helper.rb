@@ -1,2 +1,2 @@
-module Account::Project::AddUserHelper
+module Project::AddUserHelper
 end

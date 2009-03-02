@@ -14,7 +14,8 @@ class CreateTickets < ActiveRecord::Migration
       t.column :responsible_id, :integer
       t.column :project_id, :integer, :null => false
       t.column :milestone_id, :integer
-      t.column :priority, :integer, :null => false
+      t.column :urgency, :integer, :null => false, :default=> 2
+      t.column :severity, :integer, :null => false, :default=> 2
       t.column :title, :string, :null => false
       t.column :description, :text
       t.column :state, :integer, :null => false
