@@ -1,16 +1,31 @@
-#overview
-  %h2=_("Actions:")
-  %ul
-  - @actions_page.items.each do |action|
-    %li
-      = relative_date(action.created_at)
-      = from_type_to_link(action.actionable_type, action.actionable_id)
-      = action.what_did
-      = to_user_or_to_project_link(action.actionable_type, action.actionable_id)
-      %span{:class=>"etype"}= action.actionable_type
-  %li
-    = paginator(@actions_pager, @actions_page, method(:project_path), :pager_name => "page")
-  =link_to _("Back to projects"), main_path
 %br/
+%div{:id => "back"}
+%script
+  histories.ajax_back(cookies.get('active_page'))
+#overview
+  //= remote_link _("New ticket"), :url=> new_project_ticket_path(@project), :method=> :get, :html => {:href=>"#tickets"}
+  - unless @actions_page.items.empty?
+    %h2=_("Actions:")
+    %ul
+      - rel_date = "2008-01-01"
+      - @actions_page.items.each do |action|
+        %li
+          - if rel_date.to_date == action.created_at.to_date
+            %p{:class=>"time"}
+              = action.created_at.strftime("%H:%M")
+          - else
+            %p{:class=>"date"}
+              = relative_date(action.created_at)
+          %div{:class=>"what_did"}
+            = from_type_to_link(action.actionable_type, action.actionable_id)
+            = action.what_did
+            = to_user_or_to_project_link(action.actionable_type, action.actionable_id, action.id)
+            = color_from_type(action.actionable_type)
+          - rel_date = action.created_at
+      %li
+        = paginator(@actions_pager, @actions_page, method(:project_path), :pager_name => "page")
+      //=remote_link _("Back to projects"), :url=> main_path, :method=> "get"
+    //=link_to _("Back to projects"), main_path
+    %br/
 
 

@@ -1,0 +1,21 @@
+#milestones
+  - if projectrole('project.member')
+    = remote_link _("New milestone"), :url=> new_project_milestone_path(@project), :method=> :get
+  %br/
+  - unless @milestones.empty?
+    %table
+      - for milestone in @milestones
+        %tr
+          %td{:colspan=> "2"}
+            = remote_link milestone.name, :url=> project_milestone_path(@project, milestone), :method=> :get
+            %br/
+            %span=milestone.description
+        %tr{ :style=> "text-align: center"}
+          - @resolved = Ticket.find(:all, :conditions=>["milestone_id=? and state =? ", milestone.id, Ticket::STATE_RESOLVED])
+          - @open = Ticket.find(:all, :conditions=>["milestone_id=? and state in (?,?) ", milestone.id, Ticket::STATE_OPEN, Ticket::STATE_NEW])
+          %td{:width=> '50%'}
+            = milestone.tickets.size > 0 && @resolved.size > 0 ? ((@resolved.size.to_f/milestone.tickets.size.to_f)*100).to_i.to_s + "<br/> % complete" : "0 <br/> % complete"
+          %td{:width=> '50%'}
+            = @open.size.to_s + "<br/> open issues"
+    - else
+      =_("Project doesn't have milestone")

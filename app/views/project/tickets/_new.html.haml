@@ -1,43 +1,45 @@
-
-  
+%br/
+%div{:id => "back"}
+%script
+  histories.ajax_back(cookies.get('active_page'))
 - remote_form_for @ticket, :url=> project_tickets_path(@project), :before => "Element.show('spinner')", :complete=> "Element.hide('spinner')", :html=>{:multipart=> true} do |p|
-  %p
-    %label{ :for => "ticket_title" }= _("Title:")
-    %br/
-    = p.text_field :title
-    = err_for(@ticket, :title)
-  #ticket_settings
+  #ticket_content
     %p
-      %div{:style=>" float:left;width: 60px; height: 113px; margin-bottom:10px;"}
+      %label{ :for => "ticket_title" }= _("Title:")
+      %br/
+      = p.text_field :title, :style=>"width: 400px;"
+      = err_for(@ticket, :title)
+    %p
+      %label{ :for => "ticket_description" }= _("Description:")
+      %br/
+      = p.text_area :description, :size=> "55x20"
+      = err_for(@ticket, :description)
+
+    %p
+      #tags      
+        %label=_("Add Tags")
+        = text_field_tag "ticket_tags"
+        %div{:class=>"auto_complete", :id=>"ticket_tags_auto_complete"}
+        = auto_complete_field :ticket_tags, :url=> auto_complete_for_tags_project_path(@project), :after_update_element=>"function(){$('ticket_tags').value = $('ticket_tags').value.replace(/^\s*|\s*$/g,'');}", :tokens => ',', :method=>:get
+        %br/
+        %span{:class=>"tips"}=_("Comma to separate tags (python programming, user interface, graceful shutdown)")
+    %br/
+    = p.submit _("create")
+  #ticket_settings
+    = link_to_function _("Set priority"), :onclick=>"$('priority').toggle()"
+    #priority{:style=>"display:none"}
+      %div{:style=>"writing-mode: tb-rl; float:left;width: 60px; height: 113px; margin-bottom:10px;"}
         %em{:style=> "float:left; margin-top:100px; margin-right:70px"}=_("urgency")
         %div{:class=> "indicator_revert"}
-      %table{:style=>"margin-left: 50px;"}
-        %tr
-          %td
-            #priority_7{:style=>"width: 30px; height:30px", :onclick=>"Popup.choose_color(7)"}
-          %td
-            #priority_8{:style=>"width: 30px; height:30px", :onclick=>"Popup.choose_color(8)"}
-          %td
-            #priority_9{:style=>"width: 30px; height:30px", :onclick=>"Popup.choose_color(9)"}
-        %tr
-          %td
-            #priority_4{:style=>"width: 30px; height:30px", :onclick=>"Popup.choose_color(4)"}
-          %td
-            #priority_5{:style=>"width: 30px; height:30px", :onclick=>"Popup.choose_color(5)"}
-          %td
-            #priority_6{:style=>"width: 30px; height:30px", :onclick=>"Popup.choose_color(6)"}
-        %tr
-          %td
-            #priority_1{:style=>"width: 30px; height:30px", :onclick=>"Popup.choose_color(1)"}
-          %td
-            #priority_2{:style=>"width: 30px; height:30px", :onclick=>"Popup.choose_color(2)"}
-          %td
-            #priority_3{:style=>"width: 30px; height:30px", :onclick=>"Popup.choose_color(3)"}
+      =priority_block(0, 0)
+      
       %div{:style=>"width: 113px; height: 24px; margin-left:60px;margin-bottom:10px;"}
         %div{:class=> "indicator", :style=>"width: 113px; height: 10px"}
         %em{:style=> "margin-top:20px;"}=_("severity")
-      =hidden_field_tag "ticket[urgency]", ""
-      =hidden_field_tag "ticket[severity]", ""
+        
+      =hidden_field_tag "ticket[urgency]", 1
+      =hidden_field_tag "ticket[severity]", 1
+      = err_for(@ticket, :urgency)
 
 
     %p
@@ -51,18 +53,21 @@
     %p
       %label{ :for => "ticket_responable_user_id"}= _("Responsible user:")
       %br/
-      = select :ticket, :responsible_id, @project.users.map {|u| [u.email, u.id]}
+      = select :ticket, :responsible_id, @project.users.map {|u| [u.email, u.id]}, { :prompt => "--none--" }
       = err_for(@ticket, :responsible_id)
-  %p
-    %label{ :for => "ticket_description" }= _("Description:")
-    %br/
-    = p.text_area :description, :size=> "80x20"
-    = err_for(@ticket, :description)
-  %p
-    #tags
-      %label=_("Add Tags")
-      = text_field_tag "tag_list", ""
-  = p.submit _("create")
-  %br/
-
-  =remote_link _("back"), :url=> project_path(@project), :method=> "get"
+    %table
+      %th{:colspan=>"2"}=_("Notification")
+      %tr
+        %td
+          %label=_("All users: ")
+        %td
+          = check_box_tag "all", 0
+      - @project.users.each do |user|
+        - unless user.id == @ticket.created_user_id
+          %tr
+            %td
+              %label= user.name.blank? ? user.email : user.name
+            %td
+              = check_box_tag "user_#{user.id}", user.id
+      %p
+        = file_column_field('entry', 'image' )

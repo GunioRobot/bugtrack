@@ -9,13 +9,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090226095055) do
+ActiveRecord::Schema.define(:version => 20090318060626) do
 
   create_table "accounts", :force => true do |t|
     t.string   "permalink",  :null => false
     t.integer  "user_id",    :null => false
     t.string   "name",       :null => false
-    t.string   "time_zone",  :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -54,16 +53,25 @@ ActiveRecord::Schema.define(:version => 20090226095055) do
   add_index "attachments", ["attachable_type", "attachable_id"], :name => "index_attachments_on_attachable_type_and_attachable_id"
 
   create_table "comments", :force => true do |t|
-    t.string   "commentable_type",                :null => false
-    t.integer  "commentable_id",                  :null => false
-    t.integer  "user_id",                         :null => false
-    t.integer  "account_id",                      :null => false
-    t.integer  "project_id",                      :null => false
-    t.integer  "ticket_id",                       :null => false
-    t.text     "comment",                         :null => false
+    t.string   "commentable_type",      :null => false
+    t.integer  "commentable_id",        :null => false
+    t.integer  "user_id",               :null => false
+    t.integer  "account_id",            :null => false
+    t.integer  "project_id",            :null => false
+    t.integer  "ticket_id",             :null => false
+    t.text     "comment",               :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "title",            :limit => 256, :null => false
+    t.integer  "responsible_id"
+    t.integer  "milestone_id"
+    t.integer  "urgency"
+    t.integer  "severity"
+    t.integer  "state"
+    t.integer  "before_responsible_id"
+    t.integer  "before_milestone_id"
+    t.integer  "before_urgency"
+    t.integer  "before_severity"
+    t.integer  "before_state"
   end
 
   add_index "comments", ["commentable_type", "commentable_id", "created_at"], :name => "comments_commentable_idx"
@@ -71,9 +79,16 @@ ActiveRecord::Schema.define(:version => 20090226095055) do
   add_index "comments", ["ticket_id", "created_at"], :name => "index_comments_on_ticket_id_and_created_at"
   add_index "comments", ["project_id", "created_at"], :name => "index_comments_on_project_id_and_created_at"
 
+  create_table "companies", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "milestones", :force => true do |t|
-    t.integer  "project_id",  :null => false
-    t.string   "name",        :null => false
+    t.integer  "project_id",      :null => false
+    t.string   "name",            :null => false
+    t.integer  "created_user_id", :null => false
     t.text     "description"
     t.date     "due_date"
     t.datetime "created_at"
@@ -152,13 +167,17 @@ ActiveRecord::Schema.define(:version => 20090226095055) do
     t.integer  "responsible_id"
     t.integer  "project_id",                     :null => false
     t.integer  "milestone_id"
-    t.integer  "priority",                       :null => false
     t.string   "title",                          :null => false
     t.text     "description"
     t.integer  "state",                          :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "weight",          :default => 0, :null => false
+    t.integer  "severity",        :default => 1
+    t.integer  "urgency",         :default => 1
+    t.integer  "email_sender"
+    t.integer  "updated",         :default => 0, :null => false
+    t.integer  "new",             :default => 1, :null => false
   end
 
   add_index "tickets", ["created_user_id", "created_at"], :name => "index_tickets_on_created_user_id_and_created_at"
@@ -190,11 +209,15 @@ ActiveRecord::Schema.define(:version => 20090226095055) do
     t.string   "salt",                      :limit => 40
     t.string   "job_title"
     t.string   "activation_code"
+    t.string   "cell_phone"
+    t.string   "im"
     t.integer  "email_preference"
+    t.string   "time_zone",                                                :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "remember_token",            :limit => 40
     t.datetime "remember_token_expires_at"
+    t.integer  "subscribe",                                :default => 1,  :null => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

@@ -1,5 +1,10 @@
 - if @current_user.id == @user.id
   = remote_link _("edit"), :url=> edit_user_path(@user), :method=>:get
+  &nbsp &nbsp
+  - if @user.subscribe == 1
+    = link_to_remote _("unsubscribe"), :url=> user_path(@user, :unsubscribe=> 0), :method=>:put
+  -else
+    = link_to_remote _("subscribe to notifications"), :url=> user_path(@user, :unsubscribe=> 1), :method=>:put
 - unless @user.name.empty?
   %p
     %label=_("User name: ")
@@ -17,3 +22,4 @@
   %p
     %label=_("Cell phone: ")
     =@user.cell_phone
+

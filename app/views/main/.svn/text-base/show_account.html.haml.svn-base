@@ -1,10 +1,12 @@
-- unless session[:user_id].nil?
-  = remote_link _("New project"), :url=> new_project_path, :method=>:get
-%br/
-%h1=_("My projects")
-- unless @projects.nil?
-  - for project in @projects
-    = link_to project.name, project_path(project)
-    |
-    =remote_link _("Add user to project"), :url=> new_project_add_user_path(project), :method=> :get
-    %br/
+#project_page
+  - unless session[:user_id].nil?
+    = remote_link _("New project"), :url=> new_project_path, :method=>:get
+  %br/
+
+  - unless @projects.nil?
+    %h1=_("Projects")
+    - for project in @projects
+      - if projectrole('project.admin', project) || projectrole('project.member', project)
+        = link_to project.name, project_path(project)
+        //=remote_link _("Add user to project"), :url=> new_project_add_user_path(project), :method=> :get
+        %br/

@@ -1,21 +1,52 @@
+
 %h1
   Sign up as a new user
 - @user.password = @user.password_confirmation = nil
 
-= error_messages_for :user
 - form_for @user, :url => users_path do |f|
-  %p
-    = label_tag 'email'
-    %br/
-    = f.text_field :email
-  %p
-    = label_tag 'password'
-    %br/
-    = f.password_field :password
-  %p
-    = label_tag 'password_confirmation', 'Confirm Password'
-    %br/
-    = f.password_field :password_confirmation
-
-  %p
-    = submit_tag 'Sign up'
+  %div{:style=>"float:left"}
+    %p
+      = label_tag=_("Email*")
+      %br/
+      = f.text_field :email
+      = err_for(@user, :email)
+    %p
+      %label{ :for => "user_time_zone" }= _("Time zone:")
+      %br/
+      = f.time_zone_select(:time_zone, nil, :default=>"Tashkent")
+      = err_for(@user, :time_zone)
+      //%script
+      //="""try {var tz = new Date().getTimezoneOffset() / 60; $('user_time_zone').value = 'Etc/GMT' + (tz >= 0 ? '+' : '') + tz;} catch(e) {}"""
+    %p
+      = label_tag 'Password*'
+      %br/
+      = f.password_field :password
+      = err_for(@user, :password)
+    %p
+      = label_tag 'password_confirmation', _("Confirm password*")
+      %br/
+      = f.password_field :password_confirmation
+      = err_for(@user, :password_confirmation)
+    %p
+      = submit_tag 'Sign up'
+  %div{:style=>"margin-left: 20px;float:left"}
+    %p
+      %label_tag=_("Your name")
+      %br/
+      = f.text_field :name
+      = err_for(@user, :name)
+    %p
+      %label_tag=_("Instant messaging contact")
+      %br/
+      = f.text_field :im
+      = err_for(@user, :im)
+    %p
+      %label_tag=_("Job title")
+      %br/
+      = f.text_field :job_title
+      = err_for(@user, :job_title)
+    %p
+      %label_tag=_("Cell phone")
+      %br/
+      = f.text_field :cell_phone
+      = err_for(@user, :cell_phone)

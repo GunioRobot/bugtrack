@@ -1,6 +1,6 @@
 class Action < ActiveRecord::Base
-  permalinked_with :permalink
-  acts_as_permalinked
+  permalinked_with :id
+#   acts_as_permalinked
 
 #   before_create :make_permalink
   

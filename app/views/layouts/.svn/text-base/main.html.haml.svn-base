@@ -5,14 +5,13 @@
     %meta{ "http-equiv" => "Pragma", :content => "no-cache" }/
     %title Bugtracker
     = stylesheet_link_tag "main"
-    = javascript_include_tag  "prototype", "effects", "controls", "dragdrop"
-%body
+    = javascript_include_tag  "prototype", "effects", "controls", "dragdrop", "application"
+%body{:onload=>"if($('email') != null) $('email').focus();"}
   #spinner{:style=>"display:none; position:absolute;"}
     %img{ :src=>"/images/ajax-loader.gif"}
-    
   #top
     #login
-      =render(:partial=>"/users/user_bar")
+      =render(:partial=>"/users/user_bar", :object=>@current_user)
   #flash
     = flash[:notice]
   #body

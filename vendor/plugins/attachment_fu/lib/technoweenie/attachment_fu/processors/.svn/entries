@@ -1,0 +1,76 @@
+8
+
+dir
+25
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/vendor/plugins/attachment_fu/lib/technoweenie/attachment_fu/processors
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty
+
+
+
+2009-03-03T07:52:18.555397Z
+25
+sarvar
+
+
+svn:special svn:externals svn:needs-lock
+
+mini_magick_processor.rb
+file
+
+
+
+
+2009-02-25T09:21:52.000000Z
+ba97a26e0fe1dafa7025704792df5133
+2009-03-03T07:52:18.555397Z
+25
+sarvar
+
+core_image_processor.rb
+file
+
+
+
+
+2009-02-25T09:21:52.000000Z
+b7c9c88dc00ba9fd3622fef2482f02d5
+2009-03-03T07:52:18.555397Z
+25
+sarvar
+
+image_science_processor.rb
+file
+
+
+
+
+2009-02-25T09:21:52.000000Z
+a554040386cb7552617daddbe004e2c4
+2009-03-03T07:52:18.555397Z
+25
+sarvar
+
+gd2_processor.rb
+file
+
+
+
+
+2009-02-25T09:21:52.000000Z
+f2f707fc6b204bf6fef6bc48b5260993
+2009-03-03T07:52:18.555397Z
+25
+sarvar
+
+rmagick_processor.rb
+file
+
+
+
+
+2009-02-25T09:21:52.000000Z
+c9aa6b81c837b336efae431f5956c1e0
+2009-03-03T07:52:18.555397Z
+25
+sarvar
+

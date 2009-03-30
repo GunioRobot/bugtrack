@@ -1,6 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
     map.build_resources :xml => true, :html => true
-
+    map.add_attach 'add_attach/:id', :controller => "project/ticket/attachments" , :action => "create"
 #   map.connect "/", :controller => 'main', :action=>'index'
 #   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
 #   map.login '/login', :controller => 'sessions', :action => 'new'

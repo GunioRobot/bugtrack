@@ -1,13 +1,46 @@
+- unless @comments.empty?
+  %h3=_("Comments")
 - for comment in @comments
-  .div{:id=>"comment_#{comment.id}"}
-    %p
-      =comment.title
-    %p
+  .div{:id=>"comment_#{comment.id}", :class=>"comment"}
+    %div{:class=>"created_user"}
+      %b=comment.user.name.nil? ? comment.user.email : comment.user.name
+    %div{:class=>"comments"}
       =comment.comment.gsub("\n","<br/>")
-    %p
+      %br/
       //=link_to_remote _("quote"), :url=> new_project_ticket_comment_path(@project, @ticket, :comment_id=>comment.id), :method=>:get, :before => "Element.show('spinner')", :complete=> "Element.hide('spinner')"
       - if comment.user_id == @current_user.id
         =remote_link _("edit"), :url=> edit_project_ticket_comment_path(@project, @ticket, comment.id), :method=>:get
-      - if comment.user_id == @current_user.id || comment.user_id == @ticket.created_user_id
-        |
-        =remote_link _("delete"), :url=> project_ticket_comment_path(@project, @ticket, comment.id), :method=>:delete
+    %div{:class=>"comment_changins"}
+      %div
+        - unless comment.before_responsible_id == comment.responsible_id
+          %label=_("Resp. changed from ")
+          %b= comment.before_responsible_id.nil? ? _("--none--") : User.find(comment.before_responsible_id).email
+          %label=_(" to ")
+          %b= comment.responsible_id.nil? ? _("--none--") : User.find(comment.responsible_id).email
+      %div
+        - unless comment.before_state == comment.state
+          %label=_("State changed from ")
+          %b= ticket_state(comment.before_state)
+          %label=_(" to ")
+          %b= ticket_state(comment.state)
+      %div
+        - unless comment.before_urgency == comment.urgency
+          %label=_("Urgency changed from ")
+          %b= ticket_urgency(comment.before_urgency)
+          %label=_(" to ")
+          %b= ticket_urgency(comment.urgency)
+      %div
+        - unless comment.before_severity == comment.severity
+          %label=_("Severity changed from ")
+          %b=ticket_severity(comment.before_severity)
+          %label=_(" to ")
+          %b=ticket_severity(comment.severity)
+      %div
+        - unless comment.before_milestone_id == comment.milestone_id
+          %label=_("Milestone change from ")
+          %b= Milestone.find(comment.before_milestone_id).name
+          %label=_(" to ")
+          %b= Milestone.find(comment.milestone_id).name
+
+
+  %br/

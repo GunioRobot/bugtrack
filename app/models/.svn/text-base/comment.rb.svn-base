@@ -9,7 +9,7 @@ class Comment < ActiveRecord::Base
   has_many :actions, :as => :actionable, :dependent => :destroy, :order => 'created_at ASC'
 
   validates_presence_of :comment
-  validates_presence_of :title
+#   validates_presence_of :title
 
   def self.find_comments_by_user(user)
     find(:all,

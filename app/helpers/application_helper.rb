@@ -2,6 +2,9 @@
 module ApplicationHelper
   include TagsHelper
 #   include ApplicationController
+  def _(text)
+    text
+  end
 
   def tagger_form_for(name, *args, &block)
     options = args.is_a?(Hash) ? args.pop : {}
@@ -10,61 +13,23 @@ module ApplicationHelper
     form_for(name, *args, &block)
   end
 
-  def projectrole(role)
-    @current_user = User.find(session[:user_id])
-    unless @project.nil?
+  def projectrole(role, project = nil)
+    @current_user = User.find_by_remember_token(cookies[:auth_token]) unless cookies[:auth_token].nil?
+    unless project.nil?
       @roles = Role.find(:all, :joins=>"Join user_projects up On roles.id = up.role_id",
-      :conditions=>["up.user_id =? and up.project_id = ? ", @current_user.id, @project.id])
+      :conditions=>["up.user_id =? and up.project_id = ? ", @current_user.id, project.id])
     end
     @user_roles = @current_user ? @roles.collect{|r| r.name} : ""
     return true if @user_roles.include?(role)
     false
   end
 
-  def from_type_to_link(type, id)
-    if type.to_s == "Ticket"
-      unless Ticket.find(id).nil?
-        @instance = Ticket.find(id)
-        return remote_link(@instance.title, :url=> project_ticket_path(@project, @instance), :method=> :get)
-      end
-    end
-    if type.to_s == "User"
-      @instance = User.find(id)
-      return remote_link(@instance.name.blank? ? @instance.email : @instance.name, :url=> user_path(@instance), :method=> :get)
-    end
-    if type.to_s == "Page"
-      @instance = Page.find(id)
-      #return remote_link(@instance.name.blank? ? @instance.email : @instance.name, :url=> user_path(@instance), :method=> :get)
-    end
-    if type.to_s == "Milestone"
-      @instance = Milestone.find(id)
-      return remote_link(@instance.name, :url=> project_milestone_path(@project, @instance), :method=> :get)
-    end
-  end
 
-  def to_user_or_to_project_link(type, id)
-    @action = Action.find(:first, :conditions=>["actionable_type=? and actionable_id=?", type, id])
-    if type.to_s == "Ticket"
-      @user = @action.user
-      return remote_link(@user.name.blank? ? @user.email : @user.name, :url=> user_path(@user), :method=> :get)
-    end
-    if type.to_s == "User"
-      @instance = User.find(id)
-      return remote_link(@project.name, :url=> project_path(@project), :method=> :get)
-    end
-    if type.to_s == "Page"
-      @instance = Page.find(id)
-      #return remote_link(@instance.name.blank? ? @instance.email : @instance.name, :url=> user_path(@instance), :method=> :get)
-    end
-    if type.to_s == "Milestone"
-      @user = @action.user
-      return remote_link(@user.name.blank? ? @user.email : @user.name, :url=> user_path(@user), :method=> :get)
-    end
-  end
 
   def remote_link(name, *args, &block)
     options = args.is_a?(Array) ? args.pop : {}
-    options[:before]= "Element.show('spinner')"
+    url = options[:url]
+    options[:before] = "Element.show('spinner'); cookies.set('active_page', '#{url}')"
     options[:complete] = "Element.hide('spinner')"
     args << options
     link_to_remote(name, *args, &block)
@@ -205,7 +170,7 @@ module ApplicationHelper
         background = "<div id = 'priority_#{2}' style='width: 30px; height:30px; background:#8aff00' onclick= 'Popup.choose_color(#{2})'>"
       end
       if urgency == 1 && severity == 3
-        background = "<div id = 'priority_#{3}' style='width: 30px; height:30px; background:#ff2400' onclick= 'Popup.choose_color(#{3})'>"
+        background = "<div id = 'priority_#{3}' style='width: 30px; height:30px; background:#efbbb2' onclick= 'Popup.choose_color(#{3})'>"
       end
       background
     end

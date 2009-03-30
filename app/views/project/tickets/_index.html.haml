@@ -1,26 +1,39 @@
-= remote_link _("New ticket"), :url=> new_project_ticket_path(@project), :method=> :get, :html => {:href=>"#tickets"}
-%p{:style=>"float:left;"}
-  = paginator(@tickets_pager, @tickets_page, method(:project_tickets_path), :pager_name => "page", :user=> params[:user], :state=> params[:state], :tag=>params[:tag])
+%div{:id => "back"}
+%script
+  histories.ajax_back(cookies.get('active_page'))
+#all_tickets
+  = remote_link _("New ticket"), :url=> new_project_ticket_path(@project), :method=> :get
+  %p{:style=>"float:left;"}
+    = paginator(@tickets_pager, @tickets_page, method(:project_tickets_path), :pager_name => "page", :user=> params[:user], :state=> params[:state], :tag=>params[:tag])
 
--unless @tickets_page.nil?
-  %div{:style=>"float:left;", :id=>"tickets_table", :width=>"400px"}
-    %label{:style=>"float:left; text-align: left; width: 100px"}=_("title")
-    %label{:style=>"float:left; text-align: left; width: 100px"}=_("state")
-    %label{:style=>"float:left; text-align: left; width: 100px"}=remote_link _("urgency"), :url => ""
-    %label{:style=>"float:left; text-align: left; width: 100px"}=remote_link _("severity"), :url => ""
-    %label{:style=>"float:left; text-align: left; width: 150px"}=_("actions")
-  %br/
-  %div{:style=>"float:left;", :id=>"tickets_list", :width=>"450px"}
-    -@tickets_page.items.each do |ticket|
-      %div{:style=>"float:left; text-align: left; width: 550px"}
-        = link_to_function ticket.title, :onclick=> "Popup.popup_ticket('#{project_ticket_path(@project, ticket)}')", :style=>"float:left; text-align: left; width: 100px"
-        %label{:style=>"float:left; text-align: left; width: 100px"}= ticket_state(ticket.state)
-        %label{:style=>"float:left; text-align: left; width: 100px"}= ticket_urgency(ticket.urgency)
-        %label{:style=>"float:left; text-align: left; width: 100px"}= ticket_severity(ticket.severity)
-        = remote_link _("update ticket"), :url=> project_ticket_path(@project, ticket), :method=> :get, :style=>"float:left; text-align: left; width: 150px"
-      %br/
-  %div{:id=>"ticket", :style=> "display:none; float:left"}
+  -unless @tickets_page.nil?
+    %div{ :id=>"tickets_table"}
+      %label{:style=>"float:left; text-align: left; width: 50px"}=_("state")
+      %label{:style=>"float:left; text-align: left; width: 70px"}=_("author")
+      %label{:style=>"float:left; text-align: left; width: 70px"}=_("resp.")
+      %label{:style=>"float:left; text-align: left; width: 600px"}=_("title")
+      %label{:style=>"float:left; text-align: left; width: 100px"}=_("created at")
+    %br/
+    %div{ :id=>"tickets_list", :class=> "tickets_list"}
+      %div{:class=>"sortable", :id=>@str_param}
+      -@tickets_page.items.each do |ticket|
+        %div{:style=>"float:left; text-align: left;", :id=>"menu_ticket_#{ticket.id}", :class=>"sortable"}
+          %div{:id=>"item_#{ticket.id}"}
+          %label{:style=>"float:left; text-align: left; width: 50px"}= ticket_state(ticket.state)
+          - user = User.find(ticket.created_user_id)
+          %label{:style=>"float:left; text-align: left; width: 70px"}= truncate(user.name.nil? ? user.email : user.name, 10)
+          - unless ticket.responsible_id.nil?
+            - user = User.find(:first, :conditions=>["id = ? ", ticket.responsible_id])
+            %label{:style=>"float:left; text-align: left; width: 70px"}= truncate(user.name.nil? ? user.email : user.name, 10)
+          - else
+            %label{:style=>"float:left; text-align: left; width: 70px"}= truncate(_("--none--"), 10)
+          = link_to_function ticket.title, :onclick=> "Popup.popup_ticket('#{project_ticket_path(@project, ticket)}', #{ticket.id})", :style=>"float:left; text-align: left; width: 600px"
+          
+          %label{:style=>"text-align: left; width: 100px"}=ticket.created_at.to_date
+        %div{:style=>"display:none;", :id=>"ticket_#{ticket.id}", :class=>"ticket", :hoverclass=>"hover", :ondblclick=>"this.toggle();" }
+        %br/
 
-  //= sortable_element("tickets_list", :url=> project_tickets_path(@project), :tag=>"div")
--else
-  %label=_("Don't have any ticket")
+    = sortable_element("tickets_list", :url=> project_tickets_path(@project), :method=>:get, :tag=>"div", :only=>"sortable", :format=>"/(.*)/")
+  -else
+    %label=_("Don't have any ticket")
+%br/

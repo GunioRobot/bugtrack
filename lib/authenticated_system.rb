@@ -3,6 +3,7 @@ module AuthenticatedSystem
     # Returns true or false if the user is logged in.
     # Preloads @current_user with the user model if they're logged in.
     def logged_in?
+      puts session[:user_id], " : ", valid_remember_cookie?, " : "
       !!current_user
     end
 
@@ -147,6 +148,9 @@ module AuthenticatedSystem
     # when you cross quarantine (logged-out to logged-in).
     def logout_killing_session!
       logout_keeping_session!
+      if cookies[:auth_token].nil?
+        session[:user_id] = nil
+      end
       reset_session
     end
     
@@ -171,26 +175,28 @@ module AuthenticatedSystem
       case
       when valid_remember_cookie? then @current_user.refresh_token # keeping same expiry date
       when new_cookie_flag        then @current_user.remember_me
-      else                             @current_user.forget_me
+      else                             
       end
       send_remember_cookie!
     end
   
     def kill_remember_cookie!
-      cookies.delete :auth_token, :domain => ".bugtracker.com"
       cookies.delete :auth_token
+      cookies.delete :auth_token, :host => "bugtracker.com"
+      logger.warn "Failed login for '#{params[:login]}' from #{request.remote_ip} at #{Time.now.utc}"
+      cookies.delete :auth_token, :domain => ".bugtracker.com"
     end
     
     def send_remember_cookie!
       cookies[:auth_token] = {
-        :value   => @current_user.remember_token,
-        :expires => @current_user.remember_token_expires_at,
+        :value   => self.current_user.remember_token,
+        :expires => self.current_user.remember_token_expires_at,
         :domain => ".bugtracker.com"
       }
-#       cookies[:auth_token] = {
-#         :value => @current_user.remember_token,
-#         :expires => @current_user.remember_token_expires_at
-#       }
+      cookies[:auth_token] = {
+        :value => self.current_user.remember_token,
+        :expires => self.current_user.remember_token_expires_at
+      }
     end
 
 end

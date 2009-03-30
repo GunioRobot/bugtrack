@@ -50,6 +50,12 @@ module ActionController
       end
     end
 
+    def template_exists?(path)
+      self.view_paths.find_template(path, response.template.template_format)
+      rescue ActionView::MissingTemplate
+      false
+    end
+  
     def render_resource(action=nil, else_action=nil, else_redirect=nil, &block)
       action ||= params[:action]
       return render(:action => action) if template_exists?("#{self.class.controller_path}/#{action}")

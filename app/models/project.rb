@@ -10,10 +10,10 @@ class Project < ActiveRecord::Base
 
   before_create :make_permalink
 
-  validates_presence_of :name, :message => _("Project name is missing")
+  validates_presence_of :name, :message => "Project name is missing"
   validates_uniqueness_of :name
 
-  validates_presence_of :type_id, :message => _("Project type is missing")
+  validates_presence_of :type_id, :message => "Project type is missing"
   
   protected
   def make_permalink

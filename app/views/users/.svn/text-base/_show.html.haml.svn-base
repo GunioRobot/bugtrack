@@ -1,0 +1,20 @@
+- if @current_user.id == @user.id
+  = remote_link _("edit"), :url=> edit_user_path(@user), :method=>:get
+- unless @user.name.empty?
+  %p
+    %label=_("User name: ")
+    =@user.name
+
+-unless @user.im.nil?
+  %p
+    %label=_("IM: ")
+    =@user.im
+%p
+  %label=_("Email: ")
+  =@user.email
+
+-unless @user.cell_phone.nil?
+  %p
+    %label=_("Cell phone: ")
+    =@user.cell_phone
+

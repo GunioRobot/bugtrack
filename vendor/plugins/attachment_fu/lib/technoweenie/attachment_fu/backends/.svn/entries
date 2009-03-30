@@ -1,0 +1,52 @@
+8
+
+dir
+25
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/vendor/plugins/attachment_fu/lib/technoweenie/attachment_fu/backends
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty
+
+
+
+2009-03-03T07:52:18.555397Z
+25
+sarvar
+
+
+svn:special svn:externals svn:needs-lock
+
+file_system_backend.rb
+file
+
+
+
+
+2009-02-25T09:21:52.000000Z
+248bd24a859dcdd3a2abd39a5f526484
+2009-03-03T07:52:18.555397Z
+25
+sarvar
+
+db_file_backend.rb
+file
+
+
+
+
+2009-02-25T09:21:52.000000Z
+e8b9a4647f4f4a803ff55a93ae14deee
+2009-03-03T07:52:18.555397Z
+25
+sarvar
+
+s3_backend.rb
+file
+
+
+
+
+2009-02-25T09:21:52.000000Z
+62f47ead5440b3cb0ba4998a6ee4669d
+2009-03-03T07:52:18.555397Z
+25
+sarvar
+

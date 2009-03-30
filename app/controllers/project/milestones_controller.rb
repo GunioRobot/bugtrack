@@ -31,6 +31,8 @@ class Project::MilestonesController < ApplicationController
   end
 
   def before_update
+    @milestone.created_user_id = @current_user.id
+    @milestone.due_date = params[:milestone][:due_date].to_date
     @milestone.save
     unless @milestone.errors.empty?
       xhr_render_edit
@@ -44,6 +46,9 @@ class Project::MilestonesController < ApplicationController
   
   def before_create
     @milestone.created_user_id = @current_user.id
+    unless params[:milestone][:due_date].empty?
+      @milestone.due_date = params[:milestone][:due_date].to_date
+    end
     @milestone.save
     unless @milestone.errors.empty?
       xhr_render_new
@@ -65,6 +70,7 @@ class Project::MilestonesController < ApplicationController
     if request.xhr?
       render :update do |page|
         @milestones = @project.milestones
+        page.replace_html :filters, ""
         page.replace_html "body", :partial=> "index", :object=> @milestones
       end
     end
@@ -73,6 +79,7 @@ class Project::MilestonesController < ApplicationController
   def xhr_render_show
     if request.xhr?
       render :update do |page|
+        page.replace_html :filters, ""
         page.replace_html "body", :partial=> "show"
       end
     end
@@ -81,6 +88,7 @@ class Project::MilestonesController < ApplicationController
   def xhr_render_new
     if request.xhr?
       render :update do |page|
+        page.replace_html :filters, ""
         page.replace_html "body", :partial=> "new"
       end
     end
@@ -89,6 +97,7 @@ class Project::MilestonesController < ApplicationController
   def xhr_render_edit
     if request.xhr?
       render :update do |page|
+        page.replace_html :filters, ""
         page.replace_html "body", :partial=> "edit"
       end
     end

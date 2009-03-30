@@ -4,7 +4,7 @@ class CreateAccounts < ActiveRecord::Migration
       t.column :permalink, :string, :null => false, :unique => true
       t.integer :user_id, :null => false
       t.string :name, :null => false, :unique=> true
-      t.string :time_zone, :null => false
+
       t.timestamps
     end
     add_index :accounts, [:user_id, :created_at]

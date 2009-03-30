@@ -1,0 +1,51 @@
+=AjaxMessaging=
+
+==DESCRIPTION==
+AjaxMessaging, or a11g, is a plugin to provide real time messaging for Ruby on Rails. 
+
+==ABOUT==
+  * Author: Francis, Chong
+  * E-Mail Address: francis [at] reality [dot] hk
+  * License: MIT
+  * Website: http://code.google.com/p/ajaxmessaging/
+  * Blog: http://www.reality.hk (Chinese Only)
+
+==DETAILS==
+
+Using AjaxMessaging, Rails view can receive real time update from back-end Messaging Oriented Middleware (MOM).
+
+What Happens:
+  1. Client open a AJAX connection to Rails
+  2. Rails connect to MOM using STOMP, listening for specific channels, if there are incoming messages, they are sent to client.
+  3. If no message for a short period (~30s), the ajax connection return and client try again.
+  
+Features:
+  1. Message sent to client at realtime
+  2. Only regular HTTP connection is required. No socket server, no hacks on HTTP Pushing. Therefore, most firewall and browser supports it.
+  3. Subscription to multiple channels. Message can sent to either user or channels.
+  4. Integrated plugin, simple helper functions.
+  
+Requirements:
+  1. Rails 1.2+
+  2. json gem (gem install json)
+  3. stomp gem (gem install stomp)
+  4. Mongrel (gem install mongrel), you must use mongrel as web server as AjaxMessaging use Mongrel custom HttpHandler
+  5. MOM supports STOMP, e.g. ActiveMQ
+
+==INSTALLATION==
+  1. Enter following command in your project: 
+  	script/plugin install http://ajaxmessaging.googlecode.com/svn/trunk/plugins/ajaxmessaging
+
+  2. Edit config file: 
+    config/mongrel_conf.yml
+
+  3. Start your MOM server. If you are using ActiveMQ, go to AMQ directory and enter following command: 
+    ./bin/activemq  
+
+  4. Start rails by enter following command: 
+    mongrel_rails start -C config/mongrel_conf.yml
+ 
+==EXAMPLES==
+  You may get an example project at:
+   svn checkout http://ajaxmessaging.googlecode.com/svn/trunk/examples/ajaxmessaging-examples ajaxmessaging-examples
+

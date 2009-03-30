@@ -2,13 +2,16 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
   permalinked_with :id
-  
+
+  belongs_to :company
+
   has_many :user_projects
   has_many :user_accounts
+  has_many :accounts, :through => :user_accounts
   has_many :roles, :through => :user_projects
   has_many :roles, :through => :user_accounts
   has_many :projects, :through => :user_projects
-  has_many :actions, :as => :actionable
+  has_many :actions, :as => :actionable, :dependent => :destroy, :order => 'created_at ASC'
 
   include Authentication
   include Authentication::ByCookieToken
@@ -25,8 +28,11 @@ class User < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :email, :name, :password, :password_confirmation
+  
+  attr_accessible :email, :name, :password, :password_confirmation, :im, :cell_phone, :job_title, :subscribe, :id
 
+  SUBSCRIBE = 1
+  UNSUBSCRIBE = 0
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   #
   # uff.  this is really an authorization, not authentication routine.  

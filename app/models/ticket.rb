@@ -27,27 +27,41 @@ class Ticket < ActiveRecord::Base
 
   STATE_NEW = 1
   STATE_OPEN = 2
-  STATE_RESOLVED = 3
-  STATE_HOLD = 4
+  STATE_HOLD = 3
+  STATE_WORK_FOR_ME = 4
   STATE_INVALID = 5
-  STATE_WORK_FOR_ME = 6
+  STATE_RESOLVED = 6
 
-  HIGH_URGENCY = 1
-  LOW_URGENCY = 2
-  MEDIUM_URGENCY = 3
+  HIGH_URGENCY = 3
+  LOW_URGENCY = 1
+  MEDIUM_URGENCY = 2
 
-  HIGH_SEVERITY = 1
-  LOW_SEVERITY = 2
-  MEDIUM_SEVERITY = 3
+  HIGH_SEVERITY = 3
+  LOW_SEVERITY = 1
+  MEDIUM_SEVERITY = 2
 
-  validates_presence_of :description
+  NOT_SEND = 0
+  SEND = 1
+
+  NOT_NEW = 0
+  NEW = 1
+
+  NOT_UPDATED = 0
+  UPDATED = 1
+  
+
   validates_presence_of :title
-  validates_length_of :title, :within => 2..64
+  validates_length_of :title, :within => 2..256
   validates_presence_of :state
+#   validates_presence_of :urgency, :message=>_("Please, check urgency and severity of the ticket")
   validates_uniqueness_of :title, :scope=>:project_id
 
   protected
   def make_permalink
+
     generate_permalink(:value => self.title, :exclude => ["www"])
+  end
+  def set_weight
+    self.weight = self.id
   end
 end

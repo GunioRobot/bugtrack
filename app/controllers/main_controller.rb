@@ -1,22 +1,32 @@
 class MainController < ApplicationController
-  resource :path => ""
+  resource :path => "", :member=>[:auto_complete_for_project_names]
+  domain_existens_access
   layout "main"
 
+  def auto_complete_for_project_names
+    re = Regexp.new("#{params[:ticket_tags]}", "i" )
+    @tags = []
+    Tag.find(:all,
+      :conditions=>["id in (select tag_id from taggings where taggable_type='Ticket' and taggable_id in (Select t.id from tickets t Join projects p On t.project_id = p.id where p.permalink = ?))", params[:id]]).each do |l|
+      @tags << l.name unless l.name.match(re).nil?
+    end
+    render :layout=>false
+    @site.projects
+  end
+
   def before_show
-    unless session[:user_id].nil?
+    unless @current_user.nil?
       if @site
-        @account = Account.find_by_permalink(request.subdomains[0])
-        @projects = Project.find_all_by_account_id(@account.id)
+        @projects = @site.projects
         if request.xhr?
           render :update do |page|
-            page.replace_html "body", :partial=>"show_account"
+            page.replace_html "body", :partial=>"show_account", :object=> [@projects, @current_user]
           end
         else
-          render :action => "show_account"
+          render :partial => "show_account", :object=> [@projects, @current_user], :layout=>"main"
         end
       else
-        @user = User.find(session[:user_id])
-        @accounts = Account.find_all_by_user_id(session[:user_id])
+        @accounts = @current_user.accounts
         if request.xhr?
           render :update do |page|
             page.replace_html "body", :partial=>"show_account"

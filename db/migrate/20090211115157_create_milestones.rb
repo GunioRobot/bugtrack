@@ -3,7 +3,7 @@ class CreateMilestones < ActiveRecord::Migration
     create_table :milestones do |t|
       t.column :project_id, :integer, :null=> false
       t.column :name, :string, :null => false
-      t.column :created_user_id, :null => false
+      t.column :created_user_id, :integer, :null => false
       t.column :description, :text
       t.column :due_date, :date
       t.timestamps

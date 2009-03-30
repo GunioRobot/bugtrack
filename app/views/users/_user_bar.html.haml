@@ -1,14 +1,15 @@
-- if logged_in? 
+- if logged_in? && !@current_user.nil?
   #user-bar-greeting
-    Logged in as
-    = link_to_current_user :content_method => :email
-  #user-bar-action
-    (
+    = @current_user.name.blank? ? @current_user.email : @current_user.name
+    &nbsp &nbsp
+    = remote_link _("settings"), :url=> edit_user_path(@current_user), :method=> :get
+    &nbsp &nbsp
     =link_to _("Log out"), sessions_path, { :title => "Log out", :method => :delete }
-    )
+    %br/
 - else
   #user-bar-greeting
     = _("Not logged in")
   #user-bar-action
-    = link_to _("Log in"),  new_sessions_path,  { :title => "Log in" }
-    = link_to _("Sign up"), new_user_path, { :title => "Create an account"}
+    = link_to _("Log in"),  new_sessions_path,  { :title => _("Log in") }
+    = link_to _("Sign up"), new_user_path, { :title => _("Create an account")}
+

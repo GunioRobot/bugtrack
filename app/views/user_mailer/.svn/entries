@@ -14,6 +14,18 @@ sarvar
 
 svn:special svn:externals svn:needs-lock
 
+add_user_notification.html.haml
+file
+33
+
+
+
+2009-03-09T06:30:34.000000Z
+065bac016fbd739fe55e92e825ac378a
+2009-03-13T13:48:14.996783Z
+33
+sarvar
+
 ticket_notification.erb
 file
 22
@@ -40,13 +52,25 @@ sarvar
 
 updated_ticket_notification.html.haml
 file
-23
+31
 
 
 
-2009-02-24T05:11:45.000000Z
-42da81bb169b9c9d6954fea68543c09c
-2009-02-25T06:42:40.979700Z
-23
+2009-03-10T13:17:01.000000Z
+196f9b2e9bdf00a1dcad22b33e543a47
+2009-03-13T12:12:30.610075Z
+31
+sarvar
+
+new_user_notification.erb
+file
+25
+
+
+
+2009-03-03T05:18:18.000000Z
+9570fcf61fc6edb0ceecee132931fa7b
+2009-03-03T07:52:18.555397Z
+25
 sarvar
 

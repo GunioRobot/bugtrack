@@ -16,6 +16,7 @@ class CreateUsers < ActiveRecord::Migration
       t.column :cell_phone,                :string
       t.column :im,                        :string
       t.column :email_preference,          :integer
+      t.column :time_zone,                 :string , :null => false
       t.column :created_at,                :datetime
       t.column :updated_at,                :datetime
       t.column :remember_token,            :string, :limit => 40

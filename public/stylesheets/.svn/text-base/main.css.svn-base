@@ -1,86 +1,77 @@
-h1,h2,h3,h4{
-  font-family:Verdana, sans-serif;
-  color: #005FFF;
-  }
-
-th{
-  font-family:Verdana, sans-serif;
-  color: #005FFF;
-  border: 1px solid;
-}
-
-td{
-  border: 1px solid #005FFF;
-}
-
-input.text {
-    border: 1px solid #AAA
-  }
-
-#top{
-    height: 80px;
-    width: 98%;
-    border: 1px solid;
-  } 
-
-#mile_left{
-  float: left;
-}
-
-#mile_right{
-  float: right;
-  margin-right: 50px;
-}
-
-#comment_side{
-    float:left;
-  }
-
-#ticket_side{
-    float:left;
-  }
-
-#tag_side{
-    float:left;
-  }
-
-#tickets{
-    width:250px;
-    background: gray;
-    border: 1px solid;
-  }
-
-span.etype{
-    color:blue;
-    font: Arial 20px;
-  }
-
-#top_menu_bar{
-    height: 130px;
-    font-size: 14px;
-    border: 1px solid;
-    width: 98%;
-  }
-
-#right_side{
-    float: left;
-    border: 1px solid;
-    width: 98%;
-  }
-
-#overview{
-    float:left;
-  }
-
-#right_block{
-    float:right;
-    margin-right: 50px;
-  }
-
-#body{
-    
-  }
-
-
+h1,h2,h3,h4{font-family: sans-serif; color: #005FFF;}
+ul{list-style-type: none;}
+a{color:#2020C0;text-decoration:none}
+a:hover{color:#2020C0;text-decoration:underline}
+body{ font-family: sans-serif; font-size: 14px;}
+th{font-family:Verdana, sans-serif; color: #005FFF; border: 1px solid;}
+td{border: 1px solid #005FFF;}
+em{font-size: 12px;}
+.date{background-color:#EEEEEE;padding:9px;position:absolute;text-align:center;width:70px;}
+.time{padding:9px;position:absolute;text-align:center;width:70px;}
+.what_did{margin-left: 100px; padding-top: 15px;}
+#overview li{margin-top:30px; height: 2px;}
+#top{ height: 80px; background: #bcbcbc; width: 98%;}
+#login{ padding-top: 10px; float: right; padding-right:30px;}
+#flash{ font-size: 14px; text-align: center;}
+#login_page{ padding-left: 40%; padding-right: 40%; padding-top: 40px;}
+#top_menu_bar{ padding-top: 10px; margin-left:35%; position:absolute; height:100px;}
+#top_menu_bar div{ font-size: 14px; width:98%;}
+#body{ padding-top:30px; padding-left: 10px; }
+#overview{ padding-left: 10px;}
+#overview ul{ width:650px; font-size: 12px;}
+#project_page{ padding-left: 10px;}
+#all_accounts{float:left}
+#all_projects{float:left; margin-left:100px;}
+#account_page{ padding-left: 10px;}
+#overview ul{list-style-type: none;}
+#milestones{ padding-left: 10px;}
+#milestone{ padding-left: 10px;}
+#all_tickets{ margin-left:1px; font-size: 12px;}
+#ticket_description{background:#fbfbfb; width:500px;}
+#all_users{padding-top: 30px; margin-left: 750px;}
+#right_block{padding:15px 15px 15px 15px; margin-top: 10px; background:#d4d4d4;}
+#flash{ background: #f8f4f4; width: 350px;}
+#passwd_edit{margin-top:30px;margin-left:400px;}
+#user_edit{float:left;}
+#left_ticket{width:660px;}
+#right_ticket{top:10px;}
+.pwd_desc{background:#efefef; font-size: 10px;}
+.comments{ width:500px;}
+.comment_changins{margin-left:670px;}
+.comment_changins div{font-size: 12px;}
+.popup_comment_changins{position:absolute;margin-left:550px; margin-top: -30px;}
+.popup_comment_changins div{font-size:10px;}
+.comment{margin-top:5px; background:#f1f1f1; }
+.comments b{text-align: center; background:#f8f4f4;}
+input.text {border: 1px solid #AAA }
+.drag_ball{background-image: url(/images/images.jpeg); }
+.indicator{background-image: url(/images/indicator.gif);}
+.indicator_revert{width: 10px; margin-left: 50px; height: 113px; background-image: url(/images/indicator_rev.gif);}
+.hover{color: black;}
+.ticket{ width: 800px; padding-top:20px;margin-top:20px;}
+.selected_ticket{background:#e0e0e0}
+.details{margin-left:550px;font-size:10px;margin-top: -10px;}
+.details b{font-size:12px;}
+#ticket_settings{position:absolute; margin-left:550px;}
+#ticket_content{float: left;}
+#tags{float: left;}
+#mile_left{float: left;}
+#mile_right{float: right; margin-right: 50px;}
+#comment_side{float: left;}
+#ticket_side{position:absolute; margin-left:550px;}
+#tag_side{float: left;}
+#tickets{ padding-left:-100px ;position: inline; width: 150px; top: 20px; left: 120px; background:#efefef;}
+span.etype{color: blue; font: Arial 20px;}
+.tips{color:gray; font-size: 10px; font-family: Arial;}
+#top_menu_bar{height: 30px; font-size: 14px; width: 98%;}
+#top_menu_bar a{float:left; margin-left: 10px}
+#right_side{ float: left; border: 1px solid; width: 98%;}
+#right_block{ float: right; margin-right: 50px;}
+.ferr{ font-size: 10px; color: red;}
+div.auto_complete {width: 350px; background: #fff ;}
+div.auto_complete ul {border: 1px solid #888 ; margin: 0; padding: 0; width: 100%; list-style-type: none;}
+div.auto_complete ul li {margin: 0; padding: 3px;}
+div.auto_complete ul li.selected {background-color: #ffb ;}
+div.auto_complete ul strong.highlight {color: #800; margin: 0; padding: 0;}
 
  

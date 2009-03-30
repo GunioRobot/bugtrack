@@ -11,6 +11,7 @@ class Milestone < ActiveRecord::Base
   has_many :actions, :as => :actionable, :dependent => :destroy, :order => 'created_at ASC'
 
   validates_presence_of :description
+  validates_uniqueness_of :name, :scope=> :project_id
   validates_dates :due_date
   validates_presence_of :name
 end

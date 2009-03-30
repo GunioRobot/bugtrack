@@ -1,6 +1,6 @@
 - remote_form_for :project, :url => projects_path, :before => "Element.show('spinner')", :complete=> "Element.hide('spinner')", :html => { :method => :post, :id => "new_comment" } do |p|
   %p
-    %label{ :for => "project_name" }= _("Name:")
+    %label{ :for => "project_name" }= _("New project name:")
     %br/
     = p.text_field :name
     = err_for(@project, :name)

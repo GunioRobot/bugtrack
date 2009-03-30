@@ -26,10 +26,16 @@ svn:externals
 
 57c7a0ba-3d95-4dc3-830e-4c7b7b4b6a4f
 
+auto_complete
+dir
+
 haml
 dir
 
 restful-authentication
+dir
+
+attachment_fu
 dir
 
 acts_as_commentable
@@ -71,5 +77,8 @@ relative_time_helpers
 dir
 
 acts_as_taggable_on_steroids
+dir
+
+action_mailer_optional_tls
 dir
 

@@ -1,0 +1,57 @@
+%h3=_("Filters")
+- form_remote_tag :url=> project_tickets_path(@project), :method=>:get, :before => "Filter.set_url();Element.show('spinner')", :complete=> "Element.hide('spinner')" do |p|
+  %table
+    %tr
+      %td
+      %td
+        %label=_("New tickets")
+      %td
+        - checked = request.cookies['state_new']
+        = check_box_tag "states[1]", Ticket::STATE_NEW, !checked.nil? && checked.to_i != 0, :onclick=>"Filter.set_cookies(this, 'state_new')"
+    %tr
+      %td
+      %td
+        %label=_("Open tickets")
+      %td
+        - checked = request.cookies['state_open']
+        = check_box_tag "states[2]", Ticket::STATE_OPEN, !checked.nil? && checked.to_i != 0, :onclick=>"Filter.set_cookies(this, 'state_open')"
+    %tr
+      %td
+      %td
+        %label=_("Hold tickets")
+      %td
+        - checked = request.cookies['state_hold']
+
+        = check_box_tag "states[3]", Ticket::STATE_HOLD, !checked.nil? && checked.to_i != 0, :onclick=>"Filter.set_cookies(this, 'state_hold')"
+    %tr
+      %td
+      %td
+        %label=_("Work for me tickets")
+      %td
+        - checked = request.cookies['state_work_for_me']
+        = check_box_tag "states[4]", Ticket::STATE_WORK_FOR_ME, !checked.nil? && checked.to_i != 0, :onclick=>"Filter.set_cookies(this, 'state_work_for_me')"
+    %tr
+      %td
+      %td
+        %label=_("Invalid tickets")
+      %td
+        - checked = request.cookies['state_invalid']
+        = check_box_tag "states[5]", Ticket::STATE_INVALID, !checked.nil? && checked.to_i != 0, :onclick=>"Filter.set_cookies(this, 'state_invalid')"
+    %tr
+      %td
+      %td
+        %label=_("Resolved tickets")
+      %td
+        - checked = request.cookies['state_resolved']
+        = check_box_tag "states[6]", Ticket::STATE_RESOLVED, !checked.nil? && checked.to_i != 0, :onclick=>"Filter.set_cookies(this, 'state_resolved')"
+    - @project.users.each do |user|
+      %tr
+        %td
+          - checked = request.cookies["user_create_#{user.id}"]
+          = check_box_tag "create_users[#{user.id}]", user.id, !checked.nil? && checked.to_i != 0, :onclick=>"Filter.set_cookies(this, 'user_create_#{user.id}');"
+        %td    
+          %label= user.name.blank? ? user.email : user.name
+        %td
+          - checked = request.cookies["user_resp_#{user.id}"]
+          = check_box_tag "users[#{user.id}]", user.id, !checked.nil? && checked.to_i != 0, :onclick=>"Filter.set_cookies(this, 'user_resp_#{user.id}');"
+  = submit_tag _("filter")

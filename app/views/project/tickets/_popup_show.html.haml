@@ -1,22 +1,30 @@
-%p
-  %label=_("Title:")
-  =@ticket.title
-%p
-  %label=_("Description: ")
-  =@ticket.description.gsub("\n", "<br/>")
-%p
-  %label=_("Responsible: ")
-  =User.find(@ticket.responsible_id).email
-%p
-  %label=_("Urgency:")
-  =ticket_urgency(@ticket.urgency)
-%p
-  %label=_("Severity:")
-  =ticket_severity(@ticket.severity)
-%p
-  %label=_("State: ")
-  =ticket_state(@ticket.state)
+%div{:style=>"background:#e0e0e0;"}
+  %div
+    - user = User.find(@ticket.created_user_id)
+    %b= user.name.nil? ? user.email : user.name
+  %div{:style=>" width: 700px;"}
+    =@ticket.description.gsub("\n", "<br/>")
+  %div{:class=>"details"}
+    - user = User.find(:first, :conditions=>["id = ? ", @ticket.responsible_id])
+    - unless user.nil?
+      %div
+        %label=_("Responsible: ")
+        = user.name.nil? ? user.email : user.name
+    %label=_("State: ")
+    =ticket_state(@ticket.state)
+    %br/
+    %label=_("Urgency:")
+    =ticket_urgency(@ticket.urgency)
+    %br/
+    %label=_("Severity:")
+    =ticket_severity(@ticket.severity)
+
 #comments
   =render(:partial=>'/project/ticket/comments/popup_index')
-%p
-
+%br/
+=link_to_function _("add comment"), "$('ticket_comment_#{@ticket.id}').toggle()"
+&nbsp &nbsp
+= remote_link _("update"), :url=> project_ticket_path(@project, @ticket), :method=> :get, :style=>"float:left; text-align: left; width: 50px"
+%div{:id=>"ticket_comment_#{@ticket.id}", :style=>"display:none"}
+  - @comment = Comment.new
+  =render(:partial=>'/project/ticket/comments/popup_new', :object=> @comment)

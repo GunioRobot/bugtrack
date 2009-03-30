@@ -1,2 +1,2 @@
-module Account::Project::MilestonesHelper
+module Project::MilestonesHelper
 end

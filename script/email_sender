@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+# RAILS_ENV = "production"
+
+require File.dirname(__FILE__) + "/../config/environment.rb"
+while true
+  @subscribes = Subscribe.find(:all)
+  @subscribes.each do |subscribe|
+    if subscribe.user.subscribe == User::SUBSCRIBE
+      #
+      ticket = Ticket.find(subscribe.ticket_id)
+      #
+      if ticket.email_sender == Ticket::NOT_SEND
+        emails=""
+        Subscribe.find_all_by_ticket_id(ticket.id).each do |email|
+          emails << email.user.email + ";"
+        end
+        #
+        ticket_subs = Subscribe.find(:all, :conditions=>["ticket_id = ?", ticket.id])
+        ticket_subs.each do |sender|
+          if ticket.new == Ticket::NEW
+            UserMailer.deliver_ticket_notification(ticket.project, ticket, emails, ticket.project.account.permalink)
+          elsif ticket.updated = Ticket::UPDATED
+            UserMailer.deliver_updated_ticket_notification(ticket.project, ticket, emails, ticket.project.account.permalink)
+          end
+        end
+      end
+      #
+      ticket.email_sender= Ticket::SEND
+      ticket.new = Ticket::NOT_NEW
+      ticket.updated = Ticket::NOT_UPDATED
+      ticket.save!
+    end
+  end
+  sleep 10
+end

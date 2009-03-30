@@ -6,11 +6,13 @@
     %title Bugtracker
     = stylesheet_link_tag "main"
     = javascript_include_tag  "prototype", "effects", "controls", "dragdrop"
-%body
+%body{}
   #top
     #login
       =render(:partial=>"/users/user_bar")
   #top_menu_bar
     //=render(:partial=>"/menu/index")
+  #flash
+    = flash[:notice]
   #body
     = yield

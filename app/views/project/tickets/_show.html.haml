@@ -1,39 +1,49 @@
-=remote_link _("back"), :url=> project_path(@project), :method=> "get"
 %br/
-- if projectrole('project.admin')
+%div{:id => "back"}
+%script
+  histories.ajax_back(cookies.get('active_page'))
+=remote_link _("New ticket"), :url=> new_project_ticket_path(@project), :method=> :get
+- if @ticket.created_user_id == @current_user.id
   =remote_link _("Edit ticket"), :url=> edit_project_ticket_path(@project, @ticket), :method=> :get
-  =remote_link _("New ticket"), :url=> new_project_ticket_path(@project), :method=> :get
   = link_to_function _("Delete ticket"), "$('delete_stone').toggle()"
   #delete_stone{:style=>"display:none;"}
+    =_("Do you realy want to delete this ticket? After deletion the ticket will be lost")
     - form_remote_tag :url=> project_ticket_path(@project, @ticket), :method=>:delete, :before => "Element.show('spinner')", :complete=> "Element.hide('spinner')" do
       = submit_tag _("delete")
     = link_to_function _("cancel"), "$('delete_stone').toggle()"
-%p
-  %label=_("Title:")
-  =@ticket.title
-%p
-  %label=_("Description: ")
-  =@ticket.description.gsub("\n", "<br/>")
-%p
-  %label=_("Responsible: ")
-  =User.find(@ticket.responsible_id).email
-%p
-  %label=_("Urgency:")
-  =ticket_urgency(@ticket.urgency)
-%p
-  %label=_("Severity:")
-  =ticket_severity(@ticket.severity)
-%p
-  %label=_("State: ")
-  =ticket_state(@ticket.state)
+#subscribe
+  =render(:partial=>"/project/ticket/subscribe/subscribe")
+%div{:style=>"background:#e0e0e0;"}
+  #left_ticket
+    %div
+      %b
+        - user =  User.find(@ticket.created_user_id)
+        = user.name.blank? ? user.email : user.name
+      %br/
+      =@ticket.title
+    %div
+      =@ticket.description.gsub("\n", "<br/>")
+  #right_ticket{:class=>"comment_changins"}
+    %b=_("Ticket attributes")
+    - user =  User.find(:first, :conditions=>["id = ? ", @ticket.responsible_id])
+    - unless user.nil?
+      %div
+        %label=_("Responsible: ")
+        = user.name.nil? ? user.email : user.name
+    %div
+      %label=_("State: ")
+      =ticket_state(@ticket.state)
+    %div
+      %label=_("Urgency:")
+      =ticket_urgency(@ticket.urgency)
+    %div
+      %label=_("Severity:")
+      =ticket_severity(@ticket.severity)
+
 %br/
-
-
 #comments
   =render(:partial=>'/project/ticket/comments/index')
 %br/
 #comment
   - @comment = Comment.new
   =render(:partial=>'/project/ticket/comments/new', :object=> @comment)
-
-=remote_link _("back"), :url=> project_path(@project), :method=> "get"

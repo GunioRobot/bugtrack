@@ -7,16 +7,16 @@ module Project::TicketsHelper
       return "<span>" + _("Open") + "</span>"
     end
     if state == Ticket::STATE_RESOLVED
-      return "<span>" + _("Resolved") + "</span>"
+      return "<span>" + _("Resv.") + "</span>"
     end
     if state == Ticket::STATE_HOLD
       return "<span>" + _("Hold") + "</span>"
     end
     if state == Ticket::STATE_INVALID
-      return "<span>" + _("Invalid") + "</span>"
+      return "<span>" + _("Inv.") + "</span>"
     end
     if state == Ticket::STATE_WORK_FOR_ME
-      return "<span>" + _("Work for me") + "</span>"
+      return "<span>" + _("Work4me") + "</span>"
     end
   end
 

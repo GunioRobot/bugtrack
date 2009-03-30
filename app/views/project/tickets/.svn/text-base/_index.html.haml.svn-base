@@ -1,0 +1,31 @@
+#all_tickets
+  = remote_link _("New ticket"), :url=> new_project_ticket_path(@project), :method=> :get
+  %p{:style=>"float:left;"}
+    = paginator(@tickets_pager, @tickets_page, method(:project_tickets_path), :pager_name => "page", :user=> params[:user], :state=> params[:state], :tag=>params[:tag])
+
+  -unless @tickets_page.nil?
+    %div{ :id=>"tickets_table"}
+      %label{:style=>"float:left; text-align: left; width: 50px"}=_("state")
+      %label{:style=>"float:left; text-align: left; width: 150px"}=_("author")
+      %label{:style=>"float:left; text-align: left; width: 600px"}=_("title")
+      %label{:style=>"float:left; text-align: left; width: 50px"}=_("actions")
+      %label{:style=>"float:left; text-align: left; width: 100px"}=_("created at")
+
+    %br/
+    %div{ :id=>"tickets_list", :class=> "tickets_list"}
+      -@tickets_page.items.each do |ticket|
+        %div{:style=>"float:left; text-align: left;", :id=>"menu_ticket_#{ticket.id}"}
+          %label{:style=>"float:left; text-align: left; width: 50px"}= ticket_state(ticket.state)
+          - user = User.find(ticket.created_user_id)
+          %label{:style=>"float:left; text-align: left; width: 150px"}= user.name.nil? ? user.email : user.name
+          = link_to_function ticket.title, :onclick=> "Popup.popup_ticket('#{project_ticket_path(@project, ticket)}', #{ticket.id})", :style=>"float:left; text-align: left; width: 600px"
+          = remote_link _("update"), :url=> project_ticket_path(@project, ticket), :method=> :get, :style=>"float:left; text-align: left; width: 50px"
+          %label{:style=>"text-align: left; width: 100px"}=ticket.created_at.to_date
+        %div{:style=>"display:none;", :id=>"ticket_#{ticket.id}", :class=>"ticket"}
+        %br/
+          
+
+
+    //= sortable_element("tickets_list", :url=> project_tickets_path(@project), :tag=>"div")
+  -else
+    %label=_("Don't have any ticket")

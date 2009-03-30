@@ -5,16 +5,17 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.1.2' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.2' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
+# require 'smtp_tls'
 # require "#{RAILS_ROOT}/lib/authenticated_system.rb"
 CONFIG = {}
 
 
 Rails::Initializer.run do |config|
-  config.gem "gettext", :lib => "gettext/rails"
+#   config.gem "gettext", :lib => "gettext/rails"
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory are automatically loaded.
@@ -29,6 +30,15 @@ Rails::Initializer.run do |config|
   # config.gem "bj"
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"
+  config.action_mailer.smtp_settings = {
+    :tls => true,
+    :address => "smtp.gmail.com",
+    :port => "587",
+    :domain => "bugtracker.com",
+    :authentication => :plain,
+    :user_name => "sarvar.muminov",
+    :password => "1stalkers"
+  }
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.

@@ -1,23 +1,28 @@
+
 %h3=_("Update ticket")
-- remote_form_for @comment, :url => project_ticket_comments_path(@project, @ticket), :before => "Element.show('spinner')", :complete=> "Element.hide('spinner')", :html => { :method => :post, :id => "new_comment" } do |f|
+- remote_form_for @comment, :url => project_ticket_comments_path(@project, @ticket), :before => "Element.show('spinner')", :complete=> "Element.hide('spinner')", :html => { :method => :post, :id => "new_comment", :multipart=> true } do |f|
+  - @comment.comment = nil
   #comment_side
-    %p
-      %label=_('Title')
-      %br/
-      = f.text_field :title
-      = err_for(@comment, :title)
     %p
       %label=_('Comment')
       %br/
-      = f.text_area :comment, :size=>"40x15"
+      = f.text_area :comment, :size=>"70x10"
       = err_for(@comment, :comment)
+    #tags
+      = render(:partial=>"/project/ticket/tag/tags")
+    #tag
+      %label=_("Add Tags")
+      = text_field_tag "ticket_tags"
+      %div{:class=>"auto_complete", :id=>"ticket_tags_auto_complete"}
+      = auto_complete_field :ticket_tags, :url=> auto_complete_for_tags_project_path(@project), :after_update_element=>"function(){$('ticket_tags').value = $('ticket_tags').value.replace(/^\s*|\s*$/g,'');}", :tokens => ',', :method=>:get
+      %span{:class=>"tips"}=_("Comma to separate tags (python programming, user interface, graceful shutdown)")
     %p
       = f.submit _("create")
   #ticket_side
     %p
       %label=_("State")
       %br/
-      = select :ticket, :state, [[_("Open"), Ticket::STATE_OPEN],[_("Resolved"), Ticket::STATE_RESOLVED],[_("Hold"), Ticket::STATE_HOLD],[_("Invalid"), Ticket::STATE_INVALID],[_("Work for me"), Ticket::STATE_WORK_FOR_ME]]
+      = select :ticket, :state, [[_("Open"), Ticket::STATE_OPEN],[_("Resolved"), Ticket::STATE_RESOLVED],[_("Hold"), Ticket::STATE_HOLD],[_("Invalid"), Ticket::STATE_INVALID],[_("Work for me"), Ticket::STATE_WORK_FOR_ME]], {}, {:onclick=>"if(this.value == #{Ticket::STATE_RESOLVED}) $('ticket_responsible_id').value = #{@ticket.created_user_id}"}
     %p
       %label=_("Who's responsible?")
       %br/
@@ -27,7 +32,8 @@
         %label=_("Milestone")
         %br/
         = select :ticket, :milestone_id, @project.milestones.map {|p| [p.name, p.id]}, {:include_blank => true}
-    %p
+    = link_to_function _("Set priority"), :onclick=>"$('priority').toggle()"
+    #priority{:style=>"display:none"}
       %div{:style=>" float:left;width: 60px; height: 113px; margin-bottom:10px;"}
         %em{:style=> "float:left; margin-top:100px; margin-right:70px"}=_("urgency")
         %div{:class=> "indicator_revert"}
@@ -38,23 +44,21 @@
       =hidden_field_tag "ticket[urgency]", @ticket.urgency
       =hidden_field_tag "ticket[severity]", @ticket.severity
 
-  #tags
+  #all_users
     %table
+      %th{:colspan=>"2"}=_("Notification")
       %tr
         %td
           %label=_("All users: ")
         %td
           = check_box_tag "all", 0
-      #all_users
-        - @project.users.each do |user|
+      - @project.users.each do |user|
+        - unless user.id == @ticket.created_user_id
           %tr
             %td
               %label= user.name.blank? ? user.email : user.name
             %td
               = check_box_tag "user_#{user.id}", user.id
 
-    %label=_("Add Tags")
-    //= auto_complete_field :tag_list, :update=> "tags", :url=> project_tickets_path(@project, :tags=> 1)
-    = text_field_tag "tag_list", ""
     
     

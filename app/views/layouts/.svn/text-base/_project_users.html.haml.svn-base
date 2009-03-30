@@ -1,4 +1,22 @@
-%h3=_("Project members: ")
--@project.users.each do |u|
-  =remote_link u.email, :url=> user_path(u), :method=> :get, :html => {:href=>"#tickets"}
+%h3=_("Choose project")
+- @site.projects.each do |prj|
+  = link_to prj.name, project_path(prj)
   %br/
+%h3=_("Project members: ")
+
+-@project.users.each do |u|
+  = remote_link u.name.blank? ? u.email : u.name, :url=> user_path(u), :method=> :get, :html => {:href=>"#tickets"}
+  - user_tickets = Ticket.find(:all, :conditions=>["responsible_id = ? and project_id = ? and (state = ? or state = ?) ", u.id, @project.id, Ticket::STATE_NEW, Ticket::STATE_OPEN])
+  = remote_link "(#{user_tickets.empty? ? 0 : user_tickets.size })", :url=> project_tickets_path(@project, :user=> u.id), :method=> :get
+  - if projectrole('project.admin') && u.id != @current_user.id
+    |
+    = remote_link _("kick"), :url=> project_add_user_path(@project, :user_id => u.id), :method=> :delete
+  %br/
+-if projectrole('project.admin')
+  = link_to_function _("Add user"), "$('add_user').toggle(); $('email').value='';", :style=>"font-size:14px;"
+  #add_user{:style=>"display:none;"}
+    - form_remote_tag :url=> project_add_user_path(@project), :before => "Element.show('spinner')", :complete=> "Element.hide('spinner')" do
+      = text_field_tag :email, "", :style=>"border: 1px; width: 140px"
+      = hidden_field_tag :project_roles, 'project.member'
+      = hidden_field_tag :in_project, 1
+      = submit_tag "add_user", :style=>"border: 1px;"

@@ -1,8 +1,18 @@
-- unless session[:user_id].nil?
-  = link_to _("New account"), new_account_path
-%br/
-- unless @accounts.nil?
-  %h1=_("My accounts")
-  - for account in @accounts
-    = link_to account.name, main_url(:host => account.permalink + '.' + CONFIG['domain'])
+#account_page
+  - unless @current_user.nil?
+    = link_to _("New account"), new_account_path
     %br/
+    - unless @accounts.nil?
+      #all_accounts
+        %h1=_("Accounts")
+        - for account in @accounts
+          = link_to account.name, main_url(:host => account.permalink + '.' + CONFIG['domain'])
+          %br/
+      - unless @current_user.projects.empty?
+        #all_projects
+          %h1=_("All projects")
+          - for prj in @current_user.projects
+            = link_to prj.name, project_url(:host=> prj.account.permalink + '.' + CONFIG['domain'], :id => prj.permalink)
+            %br/
+          
+      

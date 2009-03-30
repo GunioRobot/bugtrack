@@ -1,0 +1,5 @@
+-unless @tags.nil?
+  %div
+    - @tags.each do |tag|
+      =tag.name
+      =remote_link _("remove"), :url => project_ticket_tag_path(@project, @ticket, :tag_id => tag), :method=> :delete

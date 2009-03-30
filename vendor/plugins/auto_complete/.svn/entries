@@ -1,0 +1,58 @@
+8
+
+dir
+25
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/vendor/plugins/auto_complete
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty
+
+
+
+2009-03-03T07:52:18.555397Z
+25
+sarvar
+
+
+svn:special svn:externals svn:needs-lock
+
+test
+dir
+
+Rakefile
+file
+
+
+
+
+2009-03-02T10:26:04.000000Z
+705a89824a98485e70202ea52528c61c
+2009-03-03T07:52:18.555397Z
+25
+sarvar
+
+init.rb
+file
+
+
+
+
+2009-03-02T10:26:04.000000Z
+bcf4ca5abe5686688244b12bce018e24
+2009-03-03T07:52:18.555397Z
+25
+sarvar
+
+lib
+dir
+
+README
+file
+
+
+
+
+2009-03-02T10:26:04.000000Z
+fb23a17d26849791cce5930621981272
+2009-03-03T07:52:18.555397Z
+25
+sarvar
+

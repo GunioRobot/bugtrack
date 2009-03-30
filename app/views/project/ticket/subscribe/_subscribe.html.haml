@@ -1,0 +1,4 @@
+- if @subscribe.nil?
+  = remote_link _("subscribe"), :url=> project_ticket_subscribe_path(@project, @ticket)
+- else
+  = remote_link _("remove subscribe"), :url=> project_ticket_subscribe_path(@project, @ticket, :subscribe_id => @subscribe), :method=>:delete

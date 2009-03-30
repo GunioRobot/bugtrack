@@ -1,0 +1,28 @@
+%div{:style=>"background:#e0e0e0;"}
+  - user = User.find(@ticket.created_user_id)
+  %b= user.name.nil? ? user.email : user.name
+  %br/
+  %div{:style=>" width: 700px;"}
+    =@ticket.description.gsub("\n", "<br/>")
+  %div{:class=>"details"}
+    - user = User.find(:first, :conditions=>["id = ? ", @ticket.responsible_id])
+    - unless user.nil?
+      %div
+        %label=_("Responsible: ")
+        = user.name.nil? ? user.email : user.name
+    %label=_("State: ")
+    =ticket_state(@ticket.state)
+    %br/
+    %label=_("Urgency:")
+    =ticket_urgency(@ticket.urgency)
+    %br/
+    %label=_("Severity:")
+    =ticket_severity(@ticket.severity)
+
+#comments
+  =render(:partial=>'/project/ticket/comments/popup_index')
+%br/
+=link_to_function _("add comment"), "$('comment').toggle()"
+#comment{:style=>"display:none"}
+  - @comment = Comment.new
+  =render(:partial=>'/project/ticket/comments/popup_new', :object=> @comment)

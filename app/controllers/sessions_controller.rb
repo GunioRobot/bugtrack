@@ -1,20 +1,21 @@
 # This controller handles the login/logout function of the site.  
 class SessionsController < ApplicationController
   resource
-  layout "main", :only=>["new"]
+  layout "main", :only=>[:new]
 
   def before_create
     logout_keeping_session!
     user = User.authenticate(params[:email], params[:password])
     if user
+      
       # Protects against session fixation attacks, causes request forgery
       # protection if user resubmits an earlier form using back
       # button. Uncomment if you understand the tradeoffs.
       self.current_user = user
       self.current_user.remember_me
-      new_cookie_flag = (params[:remember_me] == "1")
+#       new_cookie_flag 
 #       handle_remember_cookie! new_cookie_flag
-      cookies['auth_token'] = {
+      cookies[:auth_token] = {
         :value   => self.current_user.remember_token,
         :expires => self.current_user.remember_token_expires_at,
         :domain => ".bugtracker.com"

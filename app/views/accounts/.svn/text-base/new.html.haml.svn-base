@@ -1,14 +1,9 @@
 
 - form_for @account, :url => accounts_path do |f|
-  %label{ :for => "account_name" }= _("Name:")
+  %label{ :for => "account_name" }= _("new account name:")
   %br/
   = f.text_field :name
   = err_for(@account, :name)
-  %br/
-  %label{ :for => "account_time_zone" }= _("Time zone:")
-  %br/
-  = time_zone_select(:account, :time_zone)
-  = err_for(@account, :time_zone)
   %br/
   = f.submit _("Save")
   %br/

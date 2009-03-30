@@ -1,0 +1,28 @@
+8
+
+dir
+25
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty/trunk/vendor/plugins/action_mailer_optional_tls/test
+svn+ssh://sarvar@192.168.33.170/var/svn/frosty
+
+
+
+2009-03-03T07:52:18.555397Z
+25
+sarvar
+
+
+svn:special svn:externals svn:needs-lock
+
+tls_test.rb
+file
+
+
+
+
+2009-03-03T06:50:57.000000Z
+6ccd72bb880072d5afeab851c0477f94
+2009-03-03T07:52:18.555397Z
+25
+sarvar
+

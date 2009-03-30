@@ -14,7 +14,7 @@ class AccountsController < ApplicationController
 
   def before_create
     @account.user_id = @current_user.id
-    @success = @account && @account.save
+    @success = @account && @account.save!
   end
 
   def after_create
