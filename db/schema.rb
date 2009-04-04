@@ -49,8 +49,8 @@ ActiveRecord::Schema.define(:version => 20090318060626) do
     t.datetime "updated_at"
   end
 
-  add_index "attachments", ["user_id", "created_at"], :name => "index_attachments_on_user_id_and_created_at"
   add_index "attachments", ["attachable_type", "attachable_id"], :name => "index_attachments_on_attachable_type_and_attachable_id"
+  add_index "attachments", ["user_id", "created_at"], :name => "index_attachments_on_user_id_and_created_at"
 
   create_table "comments", :force => true do |t|
     t.string   "commentable_type",      :null => false
@@ -75,9 +75,9 @@ ActiveRecord::Schema.define(:version => 20090318060626) do
   end
 
   add_index "comments", ["commentable_type", "commentable_id", "created_at"], :name => "comments_commentable_idx"
-  add_index "comments", ["user_id", "created_at"], :name => "index_comments_on_user_id_and_created_at"
-  add_index "comments", ["ticket_id", "created_at"], :name => "index_comments_on_ticket_id_and_created_at"
   add_index "comments", ["project_id", "created_at"], :name => "index_comments_on_project_id_and_created_at"
+  add_index "comments", ["ticket_id", "created_at"], :name => "index_comments_on_ticket_id_and_created_at"
+  add_index "comments", ["user_id", "created_at"], :name => "index_comments_on_user_id_and_created_at"
 
   create_table "companies", :force => true do |t|
     t.integer  "user_id",    :null => false
@@ -120,8 +120,8 @@ ActiveRecord::Schema.define(:version => 20090318060626) do
     t.datetime "updated_at"
   end
 
-  add_index "projects", ["permalink"], :name => "index_projects_on_permalink", :unique => true
   add_index "projects", ["account_id", "created_at"], :name => "index_projects_on_account_id_and_created_at"
+  add_index "projects", ["permalink"], :name => "index_projects_on_permalink", :unique => true
 
   create_table "roles", :force => true do |t|
     t.string "name", :null => false
@@ -167,23 +167,23 @@ ActiveRecord::Schema.define(:version => 20090318060626) do
     t.integer  "responsible_id"
     t.integer  "project_id",                     :null => false
     t.integer  "milestone_id"
+    t.integer  "urgency",         :default => 2, :null => false
+    t.integer  "severity",        :default => 2, :null => false
     t.string   "title",                          :null => false
     t.text     "description"
     t.integer  "state",                          :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "weight",          :default => 0, :null => false
-    t.integer  "severity",        :default => 1
-    t.integer  "urgency",         :default => 1
     t.integer  "email_sender"
     t.integer  "updated",         :default => 0, :null => false
     t.integer  "new",             :default => 1, :null => false
   end
 
   add_index "tickets", ["created_user_id", "created_at"], :name => "index_tickets_on_created_user_id_and_created_at"
-  add_index "tickets", ["responsible_id", "created_at"], :name => "index_tickets_on_responsible_id_and_created_at"
-  add_index "tickets", ["project_id", "created_at"], :name => "index_tickets_on_project_id_and_created_at"
   add_index "tickets", ["milestone_id", "created_at"], :name => "index_tickets_on_milestone_id_and_created_at"
+  add_index "tickets", ["project_id", "created_at"], :name => "index_tickets_on_project_id_and_created_at"
+  add_index "tickets", ["responsible_id", "created_at"], :name => "index_tickets_on_responsible_id_and_created_at"
 
   create_table "user_accounts", :force => true do |t|
     t.integer "user_id",    :null => false
@@ -220,7 +220,7 @@ ActiveRecord::Schema.define(:version => 20090318060626) do
     t.integer  "subscribe",                                :default => 1,  :null => false
   end
 
-  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["account_id", "created_at"], :name => "index_users_on_account_id_and_created_at"
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
 
 end

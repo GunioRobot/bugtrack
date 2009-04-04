@@ -11,29 +11,31 @@
       %label{:style=>"float:left; text-align: left; width: 50px"}=_("state")
       %label{:style=>"float:left; text-align: left; width: 70px"}=_("author")
       %label{:style=>"float:left; text-align: left; width: 70px"}=_("resp.")
-      %label{:style=>"float:left; text-align: left; width: 600px"}=_("title")
+      %label{:style=>"float:left; text-align: left; width: 580px"}=_("title")
       %label{:style=>"float:left; text-align: left; width: 100px"}=_("created at")
     %br/
     %div{ :id=>"tickets_list", :class=> "tickets_list"}
       %div{:class=>"sortable", :id=>@str_param}
+      - i = 0
       -@tickets_page.items.each do |ticket|
         %div{:style=>"float:left; text-align: left;", :id=>"menu_ticket_#{ticket.id}", :class=>"sortable"}
-          %div{:id=>"item_#{ticket.id}"}
-          %label{:style=>"float:left; text-align: left; width: 50px"}= ticket_state(ticket.state)
+          %label{:style=>"float:left; text-align: left; width: 50px"}=ticket_state(ticket.state)
           - user = User.find(ticket.created_user_id)
-          %label{:style=>"float:left; text-align: left; width: 70px"}= truncate(user.name.nil? ? user.email : user.name, 10)
+          - name = user.name.blank? ? user.email : user.name
+          %label{:style=>"float:left; text-align: left; width: 70px"}=truncate(name,  :length =>10)
           - unless ticket.responsible_id.nil?
             - user = User.find(:first, :conditions=>["id = ? ", ticket.responsible_id])
-            %label{:style=>"float:left; text-align: left; width: 70px"}= truncate(user.name.nil? ? user.email : user.name, 10)
+            - name = user.name.blank? ? user.email : user.name
+            %label{:style=>"float:left; text-align: left; width: 70px"}=truncate(name,  :length =>10)
           - else
-            %label{:style=>"float:left; text-align: left; width: 70px"}= truncate(_("--none--"), 10)
-          = link_to_function ticket.title, :onclick=> "Popup.popup_ticket('#{project_ticket_path(@project, ticket)}', #{ticket.id})", :style=>"float:left; text-align: left; width: 600px"
+            %label{:style=>"float:left; text-align: left; width: 70px"}=truncate(_("--none--"),  :length =>10)
+          = link_to_function ticket.title, :onclick=> "Popup.popup_ticket('#{project_ticket_path(@project, ticket)}', #{ticket.id})", :style=>"float:left; text-align: left; width: 580px"
           
-          %label{:style=>"text-align: left; width: 100px"}=ticket.created_at.to_date
+          %label{:style=>"float:left; text-align: left; width: 100px"}=ticket.created_at.to_date
         %div{:style=>"display:none;", :id=>"ticket_#{ticket.id}", :class=>"ticket", :hoverclass=>"hover", :ondblclick=>"this.toggle();" }
         %br/
 
-    = sortable_element("tickets_list", :url=> project_tickets_path(@project), :method=>:get, :tag=>"div", :only=>"sortable", :format=>"/(.*)/")
+    = sortable_element("tickets_list", :url=> project_tickets_path(@project), :method=>:get, :tag=>"div",  :only=>"sortable", :format=>"/(.*)/")
   -else
     %label=_("Don't have any ticket")
 %br/

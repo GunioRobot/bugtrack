@@ -1,0 +1,13 @@
+%label{:style=>"float:left; text-align: left; width: 50px"}=ticket_state(@ticket.state)
+- user = User.find(@ticket.created_user_id)
+- name = user.name.blank? ? user.email : user.name
+%label{:style=>"float:left; text-align: left; width: 70px"}=truncate(name,  :length =>10)
+- unless @ticket.responsible_id.nil?
+  - user = User.find(:first, :conditions=>["id = ? ", @ticket.responsible_id])
+  - name = user.name.blank? ? user.email : user.name
+  %label{:style=>"float:left; text-align: left; width: 70px"}=truncate(name,  :length =>10)
+- else
+  %label{:style=>"float:left; text-align: left; width: 70px"}=truncate(_("--none--"),  :length =>10)
+= link_to_function @ticket.title, :onclick=> "Popup.popup_ticket('#{project_ticket_path(@project, @ticket)}', #{@ticket.id})", :style=>"float:left; text-align: left; width: 580px"
+  
+%label{:style=>"float:left; text-align: left; width: 100px"}=@ticket.created_at.to_date

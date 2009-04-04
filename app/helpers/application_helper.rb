@@ -176,7 +176,6 @@ module ApplicationHelper
     end
   
     def priority_block(urgency = 0, severity = 0)
-#       puts "ASDASD #{urgency} #{severity}"
       str = "<table style='margin-left:50px;'>"
       g = 7
       m = g

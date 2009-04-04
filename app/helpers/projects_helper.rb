@@ -4,9 +4,9 @@ module ProjectsHelper
       unless Ticket.find(id).nil?
         @instance = Ticket.find(id)
         if @instance.state == Ticket::STATE_RESOLVED
-          return remote_link("<s>" + truncate(@instance.title,40) + "</s>", :url=> project_ticket_path(@project, @instance), :method=> :get)
+          return remote_link("<s>" + truncate(@instance.title, :length =>40) + "</s>", :url=> project_ticket_path(@project, @instance), :method=> :get)
         else
-          return remote_link(truncate(@instance.title,40), :url=> project_ticket_path(@project, @instance), :method=> :get)
+          return remote_link(truncate(@instance.title, :length =>40), :url=> project_ticket_path(@project, @instance), :method=> :get)
         end
       end
     end
@@ -28,7 +28,6 @@ module ProjectsHelper
     @action = Action.find(action_id)
     if type.to_s == "Ticket"
       @user = User.find(@action.user_id)
-      puts @action.actionable_type
       return remote_link(@user.name.blank? ? @user.email : @user.name, :url=>project_tickets_path(@project, :user=> @user.id), :method=> :get)
     end
     if type.to_s == "User"

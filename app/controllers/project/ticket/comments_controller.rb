@@ -8,7 +8,7 @@ class Project::Ticket::CommentsController < ApplicationController
   layout "projects"
 
   def before_index
-    @comment = Comment.new
+    
     if request.xhr?
       if params[:close] = 1
         render :update do |page|
@@ -97,7 +97,11 @@ class Project::Ticket::CommentsController < ApplicationController
     @comment.save
     unless @comment.errors.empty?
       render :update do |page|
-        page.replace_html "comment", :partial=>"new", :object=> @comment
+        if params[:popup]
+          page.replace_html "ticket_comment_#{@ticket.id}", :partial=>"popup_new", :object=> @comment
+        else
+          page.replace_html "comment", :partial=>"new", :object=> @comment
+        end
         page.replace_html "tag_cloud", :partial=>"/layouts/tag_cloud"
       end
       return
@@ -132,6 +136,7 @@ class Project::Ticket::CommentsController < ApplicationController
     if request.xhr?
       if params[:popup]
         render :update do |page|
+          page.replace_html "menu_ticket_#{@ticket.id}", :partial=>"new_comment", :object=> @ticket
           page.replace_html "ticket_#{@ticket.id}", :partial=>"/project/tickets/popup_show"
         end
       else

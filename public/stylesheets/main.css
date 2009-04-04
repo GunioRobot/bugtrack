@@ -55,11 +55,10 @@ input.text {border: 1px solid #AAA }
 .details b{font-size:12px;}
 #ticket_settings{position:absolute; margin-left:550px;}
 #ticket_content{float: left;}
-
 #mile_left{float: left;}
 #mile_right{float: right; margin-right: 50px;}
 #comment_side{float: left;}
-#ticket_side{position:absolute; margin-left:550px;}
+#ticket_side{position:absolute; margin-left:600px;}
 #tag_side{float: left;}
 #tickets{ padding-left:-100px ;position: inline; width: 150px; top: 20px; left: 120px; background:#efefef;}
 span.etype{color: blue; font: Arial 20px;}

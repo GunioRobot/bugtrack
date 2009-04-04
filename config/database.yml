@@ -4,7 +4,7 @@ development:
   adapter: mysql
   database: bugtrack
   username: root
-  socket: /tmp/mysql/mysql.sock
+  #socket: /tmp/mysql/mysql.sock
   timeout: 5000
 
 # Warning: The database defined as "test" will be erased and
@@ -19,5 +19,5 @@ production:
   adapter: mysql
   database: bugtracker_production
   username: root
-  socket: /tmp/mysql/mysql.sock
+  #socket: /tmp/mysql/mysql.sock
   timeout: 5000

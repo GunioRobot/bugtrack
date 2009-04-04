@@ -42,7 +42,6 @@ class ProjectsController < ApplicationController
     if request.xhr?
       render :update do |page|
         @projects = @current_user.projects.find(:all, :conditions => ["account_id = ?", @site.id])
-        page.replace_html :filters, ""
         page.replace_html :flash, flash[:notice]
         page.replace_html :body, :partial=> "main/show_account", :object=> @projects
       end
@@ -72,7 +71,6 @@ private
   def xhr_render_new
     if request.xhr?
       render :update do |page|
-        page.replace_html :filters, ""
         page.replace_html "body", :partial=>"new"
       end
     end    

@@ -13,7 +13,8 @@ class Ticket < ActiveRecord::Base
 
   acts_as_permalinked
   acts_as_taggable
-  
+
+  named_scope :ids, lambda {|c| {:conditions => ["id = ? ", c]}}
 # belongs_to :resp_user,
 #             :class_name => "User",
 #             :foreign_key => "user_id"
